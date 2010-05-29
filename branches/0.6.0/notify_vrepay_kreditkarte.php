@@ -1,27 +1,22 @@
 <?php
-/* -----------------------------------------------------------------------------------------
-   $Id: notify_vrepay_dialog.php v1.2 2007/11/20 fbi $   
-   
-   Path: xtc/
-
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
-
-   Copyright (c) 2003 XT-Commerce
-   -----------------------------------------------------------------------------------------
-   based on: 
-   (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
-   (c) 2002-2003 osCommerce; www.oscommerce.com 
-   (c) 2003	 nextcommerce; www.nextcommerce.org
-
-   Released under the GNU General Public License
-   -----------------------------------------------------------------------------------------
-   Third Party contribution:
-
-   Copyright (c) 2009 Netzkollektiv / Cardprocess
-
-   Commercial License
-   ---------------------------------------------------------------------------------------*/
+/**
+ * Callback fÃ¼r Kreditkartenzahlungen
+ * 
+ * @version     $Id$
+ * 
+ * @package     xt-commerce
+ * @subpackage	vr-pay
+ * @copyright   (c) 2010 Manfred Dennerlein. All rights reserved.
+ * @license     GNU/GPL, see LICENSE.txt
+ * @author		Manfred Dennerlein <manni@zapto.de>
+ * 
+ * based on:
+ * @copyright	(c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
+ * @copyright	(c) 2002-2003 osCommerce; www.oscommerce.com 
+ * @copyright	(c) 2003 nextcommerce; www.nextcommerce.org
+ * @copyright	(c) 2007 GAD eG
+ * @copyright	(c) 2009 Netzkollektiv / Cardprocess
+ */
 
 include ('includes/application_top.php');
 require (DIR_WS_MODULES . 'payment/vrepay_kreditkarte.php');
@@ -31,7 +26,7 @@ $vrepay = new vrepay_kreditkarte();
 
 // response from vrepay e.g.: ZAHLART=KAUFEN&REFERENZNR=95&ANTWGEHEIMNIS=bitte+angeben&RMSG=Transaktion+erfolgreich&BETRAG=883&STATUS=GEKAUFT&TSAID=77E0B4E9&ZEITPUNKT=2007-03-19+12%3A10%3A51.000000&HAENDLERNR=0000100001
 // write epay - LogFile
-$vrepay->epay_log( "notify_vrepay_kreditkarte getting POST´s -> " . print_r($_POST, TRUE) );
+$vrepay->epay_log( "notify_vrepay_kreditkarte getting POSTï¿½s -> " . print_r($_POST, TRUE) );
 
 $statusNotify = strtoupper($_POST['STATUS']);
 $orderId = $_POST['REFERENZNR'];
