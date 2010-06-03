@@ -46,21 +46,20 @@ class vrpay_giropay extends vrpay_checkout {
 		
 		
 		
-		$this->GATEWAY = MODULE_PAYMENT_VRPAY_GIROPAY_GATEWAY;
-		$this->form_action_url = (MODULE_PAYMENT_VRPAY_GIROPAY_GATEWAY == 'LIVE') ? $this->LIVE_URL : $this->TEST_URL;
+		$this->GATEWAY = MODULE_PAYMENT_VRPAY_SHARED_GATEWAY;
+		$this->form_action_url = (MODULE_PAYMENT_VRPAY_SHARED_GATEWAY == 'LIVE') ? $this->LIVE_URL : $this->TEST_URL;
 		
 		if (is_object($order))
 			$this->update_status();
 			
 				
-		$this->HAENDLERNR	= MODULE_PAYMENT_VRPAY_GIROPAY_HAENDLERNR;
-		$this->password		  (MODULE_PAYMENT_VRPAY_GIROPAY_PASSWORT);
-		$this->REFPREFIX	= MODULE_PAYMENT_VRPAY_GIROPAY_REFERENCEPREFIX;
-		$this->ANTWGEHEIMNIS= MODULE_PAYMENT_VRPAY_GIROPAY_ANTWGEHEIMNIS;
+		$this->HAENDLERNR	= MODULE_PAYMENT_VRPAY_SHARED_HAENDLERNR;
+		$this->password		  (MODULE_PAYMENT_VRPAY_SHARED_PASSWORT);
+		$this->REFPREFIX	= MODULE_PAYMENT_VRPAY_SHARED_REFERENCEPREFIX;
+		$this->ANTWGEHEIMNIS= MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS;
 		$this->VERWENDUNG1	= MODULE_PAYMENT_VRPAY_GIROPAY_VERWENDUNG1;
 		$this->VERWENDUNG2	= MODULE_PAYMENT_VRPAY_GIROPAY_VERWENDUNG2;
 		$this->URLAGB		= MODULE_PAYMENT_VRPAY_GIROPAY_URLAGB;
-		$this->URLCVC		= MODULE_PAYMENT_VRPAY_GIROPAY_URLCVC;
 		
 		$this->icons = xtc_image(DIR_WS_ICONS . 'vrpay/giropay.png') ;
 		
@@ -171,17 +170,22 @@ class vrpay_giropay extends vrpay_checkout {
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_ZONE', '0', '6', '11', 'xtc_get_zone_class_title', 'xtc_cfg_pull_down_zone_classes(', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_ALLOWED', '', '6', '12', now())");		
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_SORT_ORDER', '12', '13', '16', now())");
-		
-		
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_GATEWAY', 'TEST', '6', '20', 'xtc_cfg_select_option(array(\'LIVE\', \'TEST\'), ', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_HAENDLERNR', '1000010140', '6', '21', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_PASSWORT', 'fac114pli', '6', '22','xtc_cfg_get_password', 'xtc_cfg_password(', now())");		
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_ANTWGEHEIMNIS', '', '6', '24', now())");
+
+		//Shared Config Values
+		if(!$this->config_value_exists('MODULE_PAYMENT_VRPAY_SHARED_GATEWAY'))
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_SHARED_GATEWAY', 'TEST', '6', '20', 'xtc_cfg_select_option(array(\'LIVE\', \'TEST\'), ', now())");
+		if(!$this->config_value_exists('MODULE_PAYMENT_VRPAY_SHARED_HAENDLERNR'))
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_SHARED_HAENDLERNR', '1000010140', '6', '21', now())");
+		if(!$this->config_value_exists('MODULE_PAYMENT_VRPAY_SHARED_PASSWORT'))
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_SHARED_PASSWORT', 'fac114pli', '6', '22','xtc_cfg_get_password', 'xtc_cfg_password(', now())");
+		if(!$this->config_value_exists('MODULE_PAYMENT_VRPAY_SHARED_REFERENCEPREFIX'))
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_SHARED_REFERENCEPREFIX', '', '6', '25', now())");
+		if(!$this->config_value_exists('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS'))
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS', '', '6', '24', now())");
+
 		
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_URLAGB', '3', '6', '40', 'xtc_cfg_pull_down_content(false, ', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_URLCVC', '', '6', '41', 'xtc_cfg_pull_down_content(true, ', now())");
 		
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_REFERENCEPREFIX', '', '6', '25', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_VERWENDUNG1', '', '6', '26', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_VERWENDUNG2', '". STORE_NAME ."', '6', '27', now())");
 		
@@ -194,23 +198,37 @@ class vrpay_giropay extends vrpay_checkout {
 	 * Uninstall Module
 	 */
 	function remove() {
-		xtc_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key in ('" . implode("', '", $this->keys()) . "')");
+		if ( strpos(MODULE_PAYMENT_INSTALLED, 'vrpay_cc') === false && strpos(MODULE_PAYMENT_INSTALLED, 'vrpay_giropay') === false ) {
+			//savely remove local and shared config
+			xtc_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key in ('" . implode("', '", $this->keys('all')) . "')");
+		} else {
+			//remove only local config
+			xtc_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key in ('" . implode("', '", $this->keys('local')) . "')");
+		}
 	}
 
 	/**
 	 * List all configuration keys
 	 * @return array
 	 */
-	function keys() {
+	function keys($scope = 'all') {
 		$keys = array();
-		$check_keys_query = xtc_db_query("select configuration_key from " . TABLE_CONFIGURATION . " where configuration_key LIKE 'MODULE_PAYMENT_VRPAY_GIROPAY_%' ORDER BY sort_order");
+		$check_keys_query = xtc_db_query("select configuration_key from " . TABLE_CONFIGURATION . " where configuration_key LIKE 'MODULE_PAYMENT_VRPAY_GIROPAY_%'" . (($scope == 'all') ? " OR configuration_key LIKE 'MODULE_PAYMENT_VRPAY_SHARED_%' " : "") . "ORDER BY sort_order");
 		while($check_keys = xtc_db_fetch_array($check_keys_query)) {
 			$keys[] = $check_keys['configuration_key'];
 		}
 		return $keys;
 	}
 	
+	private function config_value_exists($key) {
 
+		$check_query = xtc_db_query("select configuration_value from " . TABLE_CONFIGURATION . " where configuration_key = '" . xtc_db_input($key) . "'");
+		if(xtc_db_num_rows($check_query)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }
 

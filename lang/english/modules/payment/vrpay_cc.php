@@ -35,15 +35,22 @@
 	define('MODULE_PAYMENT_VRPAY_CC_STATUS_TITLE', 'Enable VR-Pay virtuell Credit Card Module');
 	define('MODULE_PAYMENT_VRPAY_CC_STATUS_DESC', 'Do you want to accept credit card payments with VR-Pay virtuell?');
 
-	define('MODULE_PAYMENT_VRPAY_CC_GATEWAY_TITLE', 'VR-Pay virtuell Gateway');
-	define('MODULE_PAYMENT_VRPAY_CC_GATEWAY_DESC', 'Operate VR-Pay virtuell in live or test mode');
+	if(!defined('MODULE_PAYMENT_VRPAY_SHARED_GATEWAY_TITLE')) {
+		define('MODULE_PAYMENT_VRPAY_SHARED_GATEWAY_TITLE', 'VR-Pay virtuell Gateway');
+		define('MODULE_PAYMENT_VRPAY_SHARED_GATEWAY_DESC', 'Operate VR-Pay virtuell in live or test mode');
 
-	define('MODULE_PAYMENT_VRPAY_CC_HAENDLERNR_TITLE', 'VR-Pay virtuell Partner-No.');
-	define('MODULE_PAYMENT_VRPAY_CC_HAENDLERNR_DESC', 'The Partner-No. you will receive from your bank.');
+		define('MODULE_PAYMENT_VRPAY_SHARED_HAENDLERNR_TITLE', 'VR-Pay virtuell Partner-No.');
+		define('MODULE_PAYMENT_VRPAY_SHARED_HAENDLERNR_DESC', 'The Partner-No. you will receive from your bank.');
 
-	define('MODULE_PAYMENT_VRPAY_CC_PASSWORT_TITLE', 'VR-Pay virtuell password');
-	define('MODULE_PAYMENT_VRPAY_CC_PASSWORT_DESC', 'Password is sent to you by email or post.');
+		define('MODULE_PAYMENT_VRPAY_SHARED_PASSWORT_TITLE', 'VR-Pay virtuell password');
+		define('MODULE_PAYMENT_VRPAY_SHARED_PASSWORT_DESC', 'Password is sent to you by email or post.');
 
+		define('MODULE_PAYMENT_VRPAY_SHARED_REFERENCEPREFIX_TITLE', 'Prefix for Referencenumber');
+		define('MODULE_PAYMENT_VRPAY_SHARED_REFERENCEPREFIX_DESC', 'By default, the order number is passed as reference to VR Pay. If the order number is no unique e.g. if payments are handled from several shops, you should use a prefix. The reference number must no exceed a total of 20 characters.');
+
+		define('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS_TITLE', 'Secret for Callback');
+		define('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS_DESC', 'All transactions will be provided with a notification service with the final status. To prevent tampering notifications are signed with this secret.');
+	}
 	define('MODULE_PAYMENT_VRPAY_CC_ZAHLART_TITLE', 'Payment method');
 	define('MODULE_PAYMENT_VRPAY_CC_ZAHLART_DESC', 'Type of transaction that is communicated to VR-Pay virtuell.');
 
@@ -52,12 +59,6 @@
 
 	define('MODULE_PAYMENT_VRPAY_CC_URLCVC_TITLE', 'Content Page CVC');
 	define('MODULE_PAYMENT_VRPAY_CC_URLCVC_DESC', 'Content Page for help on card verification number that is linked from VR-Pay virtuell dialog (optional)');
-		
-	define('MODULE_PAYMENT_VRPAY_CC_REFERENCEPREFIX_TITLE', 'Prefix for Referencenumber');
-	define('MODULE_PAYMENT_VRPAY_CC_REFERENCEPREFIX_DESC', 'By default, the order number is passed as reference to VR Pay. If the order number is no unique e.g. if payments are handled from several shops, you should use a prefix. The reference number must no exceed a total of 20 characters.');
-
-	define('MODULE_PAYMENT_VRPAY_CC_ANTWGEHEIMNIS_TITLE', 'Secret for Callback');
-	define('MODULE_PAYMENT_VRPAY_CC_ANTWGEHEIMNIS_DESC', 'All transactions will be provided with a notification service with the final status. To prevent tampering notifications are signed with this secret.');
 
 	define('MODULE_PAYMENT_VRPAY_CC_VERWENDUNG1_TITLE', 'Purpose 1');
 	define('MODULE_PAYMENT_VRPAY_CC_VERWENDUNG1_DESC', 'Purpose line 1');

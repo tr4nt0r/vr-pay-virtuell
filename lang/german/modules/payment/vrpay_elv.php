@@ -35,29 +35,28 @@
 	define('MODULE_PAYMENT_VRPAY_ELV_STATUS_TITLE', 'VR-Pay virtuell Lastschrift Modul aktivieren');
 	define('MODULE_PAYMENT_VRPAY_ELV_STATUS_DESC', 'M&ouml;chten Sie Zahlungen per Lastschrift &uuml;ber VR-Pay virtuell akzeptieren?');
 
-	define('MODULE_PAYMENT_VRPAY_ELV_GATEWAY_TITLE', 'VR-Pay virtuell Gateway');
-	define('MODULE_PAYMENT_VRPAY_ELV_GATEWAY_DESC', 'VR-Pay virtuell im Live oder im Test Modus betreiben');
+	if(!defined('MODULE_PAYMENT_VRPAY_SHARED_GATEWAY_TITLE')) {
+		define('MODULE_PAYMENT_VRPAY_SHARED_GATEWAY_TITLE', 'VR-Pay virtuell Gateway');
+		define('MODULE_PAYMENT_VRPAY_SHARED_GATEWAY_DESC', 'VR-Pay virtuell im Live oder im Test Modus betreiben');
 
-	define('MODULE_PAYMENT_VRPAY_ELV_HAENDLERNR_TITLE', 'VR-Pay virtuell Partner-Nr');
-	define('MODULE_PAYMENT_VRPAY_ELV_HAENDLERNR_DESC', 'Die Partner-Nr erhalten Sie von Ihrer Bank.');
+		define('MODULE_PAYMENT_VRPAY_SHARED_HAENDLERNR_TITLE', 'VR-Pay virtuell Partner-Nr');
+		define('MODULE_PAYMENT_VRPAY_SHARED_HAENDLERNR_DESC', 'Die Partner-Nr erhalten Sie von Ihrer Bank.');
 
-	define('MODULE_PAYMENT_VRPAY_ELV_PASSWORT_TITLE', 'VR-Pay virtuell Passwort');
-	define('MODULE_PAYMENT_VRPAY_ELV_PASSWORT_DESC', 'Das Passwort wird Ihnen per Pinbrief oder email mitgeteilt.');
+		define('MODULE_PAYMENT_VRPAY_SHARED_PASSWORT_TITLE', 'VR-Pay virtuell Passwort');
+		define('MODULE_PAYMENT_VRPAY_SHARED_PASSWORT_DESC', 'Das Passwort wird Ihnen per Pinbrief oder email mitgeteilt.');
+
+		define('MODULE_PAYMENT_VRPAY_SHARED_REFERENCEPREFIX_TITLE', 'Pr&auml;fix f&uuml;r Referenz');
+		define('MODULE_PAYMENT_VRPAY_SHARED_REFERENCEPREFIX_DESC', 'Standardm&auml;&szlig;ig wird die Bestellnummer als Referenz an VR-Pay &uuml;bergeben. Ist die Bestellnummer bei VR-Pay nicht einmalig, z.B. wenn Zahlungen mehrerer Shopsysteme abgewickelt werden, kann ein Pr&auml;fix verwendet werden. Die Referenz darf insg. 20 Zeichen nicht &uuml;berschreiten.');
+
+		define('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS_TITLE', 'Geheimwort f&uuml;r Callback');
+		define('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS_DESC', 'Alle Transaktionen werden &uuml;ber einen Benachrichtigungsdienst mit dem endg&uuml;ltigen Status versehen, um Manipulationen auszuschliessen werden Benachrichtigungen mit diesem Geheimwort signiert.');
+	}
 
 	define('MODULE_PAYMENT_VRPAY_ELV_ZAHLART_TITLE', 'Zahlart');
 	define('MODULE_PAYMENT_VRPAY_ELV_ZAHLART_DESC', 'Zahlart gibt an, wie die Transaktionen von VR-Pay virtuell verarbeitet werden.');
 
 	define('MODULE_PAYMENT_VRPAY_ELV_URLAGB_TITLE', 'Content Seite AGB');
 	define('MODULE_PAYMENT_VRPAY_ELV_URLAGB_DESC', 'Content Seite f&uuml;r die Verlinkung Ihrer allgemeinen Gesch&auml;ftsbedingungen im VR-Pay virtuell Dialogfenster');
-
-	define('MODULE_PAYMENT_VRPAY_ELV_URLCVC_TITLE', 'Content Seite CVC');
-	define('MODULE_PAYMENT_VRPAY_ELV_URLCVC_DESC', 'Content Seite f&uuml;r die Verlinkung einer Hilfe zur Kartenpr&uuml;fnummer im VR-Pay virtuell Dialogfenster (optional)');
-		
-	define('MODULE_PAYMENT_VRPAY_ELV_REFERENCEPREFIX_TITLE', 'Pr&auml;fix f&uuml;r Referenz');
-	define('MODULE_PAYMENT_VRPAY_ELV_REFERENCEPREFIX_DESC', 'Standardm&auml;&szlig;ig wird die Bestellnummer als Referenz an VR-Pay &uuml;bergeben. Ist die Bestellnummer bei VR-Pay nicht einmalig, z.B. wenn Zahlungen mehrerer Shopsysteme abgewickelt werden, kann ein Pr&auml;fix verwendet werden. Die Referenz darf insg. 20 Zeichen nicht &uuml;berschreiten.');
-
-	define('MODULE_PAYMENT_VRPAY_ELV_ANTWGEHEIMNIS_TITLE', 'Geheimwort f&uuml;r Callback');
-	define('MODULE_PAYMENT_VRPAY_ELV_ANTWGEHEIMNIS_DESC', 'Alle Transaktionen werden &uuml;ber einen Benachrichtigungsdienst mit dem endg&uuml;ltigen Status versehen, um Manipulationen auszuschliessen werden Benachrichtigungen mit diesem Geheimwort signiert.');
 
 	define('MODULE_PAYMENT_VRPAY_ELV_VERWENDUNG1_TITLE', 'Verwendungszweck 1');
 	define('MODULE_PAYMENT_VRPAY_ELV_VERWENDUNG1_DESC', 'Verwendungszweckzeile 1');
