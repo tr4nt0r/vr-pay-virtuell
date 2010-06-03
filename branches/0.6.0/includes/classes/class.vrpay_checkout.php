@@ -15,18 +15,36 @@
 class vrpay_checkout {
 
 	protected $LIVE_URL = 'https://pay.vr-epay.de/pbr/transaktion';
-	protected $TEST_URL = 'https://payinte.vr-epay.de/pbr/transaktion';	
+	protected $TEST_URL = 'https://payinte.vr-epay.de/pbr/transaktion';
+		
 	protected $HAENDLERNR;
-	protected $ORDERPREFIX;
+	private $PASSWORD;
+	
+	protected $REFPREFIX;
 	protected $ZAHLART;
-	protected $VERWENDUNG2;
+	private   $SERVICENAME = 'DIALOG';
+	protected $GATEWAY;
 	protected $ANTWGEHEIMNIS;
+	
+	protected $VERWENDUNG1;
+	protected $VERWENDUNG2;
+	
+	protected $URLAGB;
+	protected $URLCVC;
+	
+	
 	protected $ACTIVATE_VISA;
 	protected $ACTIVATE_ECMC;
 	protected $ACTIVATE_DINERS;
 	protected $ACTIVATE_AMEX;
 	protected $ACTIVATE_JCB;
-	protected $PASSWORD;
+	
+	
+	protected $ch = false;
+	
+	protected function password($password) {
+		$this->PASSWORD = $password;
+	}
 	
 	
 	/**
@@ -35,7 +53,7 @@ class vrpay_checkout {
 	 * @param string $type cc or elv
 	 * @return array
 	 */
-	protected function build_post(&$order, $type) {
+	protected function build_post($order_id, &$order, $type) {
 		global $xtPrice;
 		
 		$post_data = array();
@@ -45,10 +63,10 @@ class vrpay_checkout {
 		$post_data['TSATYP']		= 'ECOM';
 		
 		//Bestelldaten
-		$post_data['REFERENZNR']	= str_pad($this->ORDERPREFIX . $_SESSION['tmp_oID'], 4, '0', STR_PAD_LEFT);
+		$post_data['REFERENZNR']	= str_pad($this->REFPREFIX . $order_id, 4, '0', STR_PAD_LEFT);
 
-		if (!in_array($my_currency, array ('EUR', 'USD', 'CHF', 'GBP', 'CAD', 'PLN', 'CZK', 'DKK', 'ALL', 'BAM', 'BGN', 'BYR', 'EEK', 'GEL', 'GIP', 'HRK', 'HUF', 'LTL', 'LVL', 'NOK', 'RON', 'RSD', 'RUB', 'SEK', 'TRY', 'UAH'))) {
-			//TODO: Fehler ausgeben, dass Währung nicht für Zahlung erlaubt.
+		if (!in_array($order->info['currency'], array ('EUR', 'USD', 'CHF', 'GBP', 'CAD', 'PLN', 'CZK', 'DKK', 'ALL', 'BAM', 'BGN', 'BYR', 'EEK', 'GEL', 'GIP', 'HRK', 'HUF', 'LTL', 'LVL', 'NOK', 'RON', 'RSD', 'RUB', 'SEK', 'TRY', 'UAH'))) {
+			xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_CURRENCY_NOT_SUPPORTED), 'SSL', true, false));
 		}
 		
 
@@ -85,8 +103,8 @@ class vrpay_checkout {
 
 		//Transaktion
 		$post_data['ZAHLART'] 		= $this->ZAHLART;
-		$post_data['SERVICENAME'] 	= 'DIALOG';
-	
+		$post_data['SERVICENAME'] 	= $this->SERVICENAME;
+		$post_data['VERWENDUNG2'] =  utf8_decode(substr($this->VERWENDUNG1, 0, 25));
 		
 		if($this->VERWENDUNG2 != '') {
 			$post_data['VERWENDUNG2'] = utf8_decode(substr($this->VERWENDUNG2, 0, 25));
@@ -118,8 +136,8 @@ class vrpay_checkout {
 			
 		$post_data['URLERFOLG'] = xtc_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL');
 			
-		$post_data['URLFEHLER'] =  xtc_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL');
-		$post_data['URLABBRUCH'] = xtc_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL');
+		$post_data['URLFEHLER'] =  xtc_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_FAILED), 'SSL');
+		$post_data['URLABBRUCH'] = xtc_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_CANCELED), 'SSL');
 		$post_data['URLANTWORT'] = xtc_href_link('callback/vrpay/callback.php', '', 'SSL');
 		//
 		$post_data['BENACHRPROF']	= "ZHL";
@@ -176,53 +194,54 @@ class vrpay_checkout {
 	protected function send_post(&$post_data, $target) {
 		
 		
-				$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $target);
-		echo $this->HAENDLERNR . ':' . $this->PASSWORD;
-		curl_setopt($ch, CURLOPT_USERPWD, $this->HAENDLERNR . ':' . $this->PASSWORD);
-		curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+		$this->ch = curl_init();
+		curl_setopt($this->ch, CURLOPT_URL, $target);
+
+		curl_setopt($this->ch, CURLOPT_USERPWD, $this->HAENDLERNR . ':' . $this->PASSWORD);
+		curl_setopt($this->ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+
+		curl_setopt($this->ch, CURLOPT_POSTFIELDS, http_build_query($post_data, '', '&'));
+		curl_setopt($this->ch, CURLOPT_POST, true);
+		curl_setopt($this->ch, CURLOPT_SSLVERSION, 3);
+		curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
 		
-		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_data, '', '&'));
-		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_SSLVERSION, 3);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_HEADER, true);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
+
+		$response = curl_exec($this->ch);
+
+		$this->process_response($response);
 		
-		echo $response = curl_exec($ch);
-		$headers = curl_getinfo($ch);
-		print_r($headers);
-		curl_close($ch);
+		curl_close($this->ch);
 	}
 	
-}
 
+	protected function process_response(&$response) {
 
-if(!function_exists('http_parse_headers')) {
-	// http_parse_headers: without PECL Library
-	function http_parse_headers($headers = false){
-
-		if($headers === false) {
-			return false;
-		}
-		// carriage return to nothing
-		$headers = str_replace("\r","",$headers);
-		// header divided by new line
-		$headers = explode("\n",$headers);
-
-		foreach($headers as $value) {
-			$header = explode(": ",$value);
-			if($header[0] && !$header[1]) {
-				$headerdata['STATUS'] = $header[0];
-			} elseif($header[0] && $header[1]) {
-				// uppercase for all keys
-				$headerdata[strtoupper($header[0])] = $header[1];
+		if($response === false) {
+			xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_UNAVAILABLE), 'SSL', true, false));
+		} else {
+			$header = curl_getinfo($this->ch);
+			switch ($header['http_code']) {
+					
+				case '200':
+					//Im Fehlerfall erfolgt kein Redirect zur Zahlungsseite
+					if($header['redirect_count'] == 0) {
+						parse_str($response);
+						xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode($FEHLERTEXT), 'SSL', true, false));
+					} else {
+						xtc_redirect($header['url']);
+					}
+					break;
+				case '401':
+					xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_AUTHENTICATION), 'SSL', true, false));
+					break;
+				default:
+					xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_UNKNOWN_ERROR), 'SSL', true, false));
+					break;
 			}
 		}
-		return $headerdata;
 	}
 }
-
 ?>
