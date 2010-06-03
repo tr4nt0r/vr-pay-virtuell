@@ -70,11 +70,11 @@ class vrpay_cc extends vrpay_checkout {
 		$this->ACTIVATE_JCB = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB == 'True') ? true : false;
 		
 		$this->icons = array();
-		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA == 'True') ? xtc_image(DIR_WS_ICONS . 'vrepay/VISA.gif')  : '';
-		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_ECMC == 'True') ? xtc_image(DIR_WS_ICONS . 'vrepay/ECMC') : '';
-		$this->icons[].= (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_AMEX == 'True') ? xtc_image(DIR_WS_ICONS . 'vrepay/AMEX.gif') : '';
-		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_DINERS == 'True') ? xtc_image(DIR_WS_ICONS . 'vrepay/DINERS.gif') : '';
-		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB == 'True') ? xtc_image(DIR_WS_ICONS . 'vrepay/JCB.gif') : '';
+		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA == 'True') ? xtc_image(DIR_WS_ICONS . 'vrpay/visa.png')  : '';
+		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_ECMC == 'True') ? xtc_image(DIR_WS_ICONS . 'vrpay/mastercard.png') : '';
+		$this->icons[].= (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_AMEX == 'True') ? xtc_image(DIR_WS_ICONS . 'vrpay/americanexpress.png') : '';
+		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_DINERS == 'True') ? xtc_image(DIR_WS_ICONS . 'vrpay/dinersclub.png') : '';
+		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB == 'True') ? xtc_image(DIR_WS_ICONS . 'vrpay/jcb.png') : '';
 		
 		$this->icons_available = xtc_image(DIR_WS_ICONS . 'cc_amex_small.jpg') . ' ' .
 		xtc_image(DIR_WS_ICONS . 'cc_mastercard_small.jpg') . ' ' . 
@@ -142,7 +142,7 @@ class vrpay_cc extends vrpay_checkout {
 	function payment_action() {
 		global $order, $insert_id, $xtPrice;
 
-		$this->send_post($insert_id, $this->build_post($order, 'CC'), $this->form_action_url);
+		$this->send_post($this->build_post($insert_id, $order, 'CC'), $this->form_action_url);
 		
 		return false;
 	}
