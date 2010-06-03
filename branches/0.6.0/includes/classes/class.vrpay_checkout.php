@@ -102,7 +102,6 @@ class vrpay_checkout {
 		}
 
 		//Transaktion
-		$post_data['ZAHLART'] 		= $this->ZAHLART;
 		$post_data['SERVICENAME'] 	= $this->SERVICENAME;
 		$post_data['VERWENDUNG2'] =  utf8_decode(substr($this->VERWENDUNG1, 0, 25));
 		
@@ -148,6 +147,7 @@ class vrpay_checkout {
 			case 'ELV':
 				$post_data['AUSWAHL'] = 'N';
 				$post_data['BRAND'] = 'ELV';
+				$post_data['ZAHLART'] = $this->ZAHLART;
 				break;
 			case 'GIROPAY':
 				$post_data['AUSWAHL'] = 'N';
@@ -179,10 +179,12 @@ class vrpay_checkout {
 				} else {
 					$post_data['AUSWAHL'] = 'J';
 				}
+				$post_data['ZAHLART'] = $this->ZAHLART;
 				break;
 					
 			default:
 				$post_data['AUSWAHL'] = 'J';
+				$post_data['ZAHLART'] = $this->ZAHLART;
 				break;
 		}
 
