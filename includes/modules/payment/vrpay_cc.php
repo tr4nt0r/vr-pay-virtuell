@@ -34,11 +34,19 @@ class vrpay_cc extends vrpay_checkout {
 		$this->enabled     = ((MODULE_PAYMENT_VRPAY_CC_STATUS == 'True') ? true : false);
 		
 		$this->tmpOrders = true;
-		$this->tmpStatus = 1; //MODULE_PAYMENT_PAYPAL_TMP_STATUS_ID;
+		$this->tmpStatus = MODULE_PAYMENT_VRPAY_CC_TMP_STATUS_ID;
+
+		if ((int) MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID > 0) {
+			$this->order_status = MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID;
+		}
+		
+		if ((int) MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID > 0) {
+			$this->order_status = MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID;
+		}
 		
 		
 		
-		
+		$this->GATEWAY = MODULE_PAYMENT_VRPAY_CC_GATEWAY;
 		$this->form_action_url = (MODULE_PAYMENT_VRPAY_CC_GATEWAY == 'LIVE') ? $this->LIVE_URL : $this->TEST_URL;
 		
 		if (is_object($order))
@@ -46,8 +54,8 @@ class vrpay_cc extends vrpay_checkout {
 			
 				
 		$this->HAENDLERNR	= MODULE_PAYMENT_VRPAY_CC_HAENDLERNR;
-		$this->PASSWORD		= MODULE_PAYMENT_VRPAY_CC_PASSWORT;
-		$this->ORDERPREFIX	= MODULE_PAYMENT_VRPAY_CC_ORDERPREFIX;
+		$this->password		  (MODULE_PAYMENT_VRPAY_CC_PASSWORT);
+		$this->REFPREFIX	= MODULE_PAYMENT_VRPAY_CC_REFERENCEPREFIX;
 		$this->ZAHLART		= MODULE_PAYMENT_VRPAY_CC_ZAHLART;
 		$this->ANTWGEHEIMNIS= MODULE_PAYMENT_VRPAY_CC_ANTWGEHEIMNIS;
 		$this->VERWENDUNG1	= MODULE_PAYMENT_VRPAY_CC_VERWENDUNG1;
@@ -61,12 +69,18 @@ class vrpay_cc extends vrpay_checkout {
 		$this->ACTIVATE_AMEX = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_AMEX == 'True') ? true : false;
 		$this->ACTIVATE_JCB = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB == 'True') ? true : false;
 		
-		$this->icons_available = array();
-		$this->icons_available[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA == 'True') ? xtc_image(DIR_WS_ICONS . 'vrepay/VISA.gif'). ' ' .xtc_image(DIR_WS_ICONS . 'vrepay/VISA3DS.gif')  : '';
-		$this->icons_available[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_ECMC == 'True') ? xtc_image(DIR_WS_ICONS . 'vrepay/ECMC') . ' ' . xtc_image(DIR_WS_ICONS . 'vrepay/ECMC3DS') : '';
-		$this->icons_available[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_AMEX == 'True') ? xtc_image(DIR_WS_ICONS . 'vrepay/AMEX.gif') : '';
-		$this->icons_available[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_DINERS == 'True') ? xtc_image(DIR_WS_ICONS . 'vrepay/DINERS.gif') : '';
-		$this->icons_available[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB == 'True') ? xtc_image(DIR_WS_ICONS . 'vrepay/JCB.gif') : '';
+		$this->icons = array();
+		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA == 'True') ? xtc_image(DIR_WS_ICONS . 'vrepay/VISA.gif')  : '';
+		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_ECMC == 'True') ? xtc_image(DIR_WS_ICONS . 'vrepay/ECMC') : '';
+		$this->icons[].= (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_AMEX == 'True') ? xtc_image(DIR_WS_ICONS . 'vrepay/AMEX.gif') : '';
+		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_DINERS == 'True') ? xtc_image(DIR_WS_ICONS . 'vrepay/DINERS.gif') : '';
+		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB == 'True') ? xtc_image(DIR_WS_ICONS . 'vrepay/JCB.gif') : '';
+		
+		$this->icons_available = xtc_image(DIR_WS_ICONS . 'cc_amex_small.jpg') . ' ' .
+		xtc_image(DIR_WS_ICONS . 'cc_mastercard_small.jpg') . ' ' . 
+		xtc_image(DIR_WS_ICONS . 'cc_visa_small.jpg').' ' . 
+		xtc_image(DIR_WS_ICONS . 'cc_diners_small.jpg') . ' ' . 
+		xtc_image(DIR_WS_ICONS . 'jcb_big.jpg', '', '', 21);
 	}
 
 
@@ -101,7 +115,7 @@ class vrpay_cc extends vrpay_checkout {
 	function selection() {
 		$content = array(array (
 				'title' => ' ',
-				'field' => implode(' ', $this->icons_available)
+				'field' => implode(' ', $this->icons)
 			));
 		return array ('id' => $this->code, 'module' => $this->title, 'fields' => $content, 'description' => $this->info);
 	}
@@ -122,36 +136,32 @@ class vrpay_cc extends vrpay_checkout {
 		return false;
 	}
 
+	/**
+	 * Process payment
+	 */
 	function payment_action() {
 		global $order, $insert_id, $xtPrice;
 
-		$post_data &= $this->build_post($order, 'CC');
-		$return &= $this->send_post($post_data, $this->form_action_url);
-		unset($_SESSION['tmp_oID']);
+		$this->send_post($insert_id, $this->build_post($order, 'CC'), $this->form_action_url);
+		
 		return false;
 	}
 
-
-	// call from checkout_payment with "payment_error=module..."
+	/**
+	 * Display Error Message
+	 */
 	function get_error() {
-
-		$this->epay_log( "start function get_error()..." );
-
-		$error = array (
-			'title' => stripslashes(urldecode($_GET['FEHLERCODE']) ),
-			'error' => stripslashes(urldecode($_GET['FEHLERTEXT']) )
-		);
-		
-		
-
+		$error = array ('error' => stripslashes(urldecode($_GET['error'])));
 		return $error;
 	}
 
-
+	/**
+	 * Update status when returned from payment
+	 */
 	function after_process() {
 		global $insert_id;
-		if ($this->order_status)
-		xtc_db_query("UPDATE ".TABLE_ORDERS." SET orders_status='".$this->order_status."' WHERE orders_id='". xtc_db_input($insert_id)."'");
+//		if ($this->order_status)
+//		xtc_db_query("UPDATE ".TABLE_ORDERS." SET orders_status='".$this->order_status."' WHERE orders_id='". xtc_db_input($insert_id)."'");
 	}
 
 	/**
@@ -179,24 +189,29 @@ class vrpay_cc extends vrpay_checkout {
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_CC_SORT_ORDER', '10', '13', '16', now())");
 		
 		
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_GATEWAY', 'LIVE', '6', '20', 'xtc_cfg_select_option(array(\'LIVE\', \'TEST\'), ', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_CC_HAENDLERNR', '', '6', '21', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_PASSWORT', '', '6', '22','xtc_cfg_get_password', 'xtc_cfg_password(', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_GATEWAY', 'TEST', '6', '20', 'xtc_cfg_select_option(array(\'LIVE\', \'TEST\'), ', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_CC_HAENDLERNR', '1000010140', '6', '21', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_PASSWORT', 'fac114pli', '6', '22','xtc_cfg_get_password', 'xtc_cfg_password(', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_ZAHLART', 'RESERVIEREN', '6', '23', 'xtc_cfg_select_option(array(\'RESERVIEREN\', \'KAUFEN\'), ', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_CC_ANTWGEHEIMNIS', '', '6', '24', now())");
 		
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_URLAGB', '3', '6', '30', 'xtc_cfg_pull_down_content(false, ', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_URLCVC', '', '6', '31', 'xtc_cfg_pull_down_content(true, ', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_URLAGB', '3', '6', '40', 'xtc_cfg_pull_down_content(false, ', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_URLCVC', '', '6', '41', 'xtc_cfg_pull_down_content(true, ', now())");
 		
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_CC_REFERENCEPREFIX', '', '6', '25', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_CC_VERWENDUNG1', '', '6', '26', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_CC_VERWENDUNG2', '". STORE_NAME ."', '6', '27', now())");
+		
+	
 
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA', 'True', '6', '30', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_ECMC', 'True', '6', '31', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_DINERS', 'False', '6', '33', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_AMEX', 'False', '6', '32', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB', 'False', '6', '34', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
+		
+		xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, use_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID', '0',  '6', '50', 'xtc_cfg_pull_down_order_statuses(', 'xtc_get_order_status_name', now())");
+		xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, use_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_TMP_STATUS_ID', '0',  '6', '51', 'xtc_cfg_pull_down_order_statuses(', 'xtc_get_order_status_name', now())");
 	
 	}
 
@@ -231,7 +246,7 @@ if(!function_exists('xtc_cfg_pull_down_content')) {
 		$name = (($key) ? 'configuration['.$key.']' : 'configuration_value');
 		$content_query_array = array();
 		if($allow_empty) {
-			$zone_class_array[] = array ('id' => '', 'text' => TEXT_NONE);
+			$content_query_array[] = array ('id' => '', 'text' => TEXT_NONE);
 		}
 		$content_query = xtc_db_query("select content_group, content_title from ".TABLE_CONTENT_MANAGER." WHERE languages_id='" . $_SESSION['languages_id'] . "' order by content_group ");
 		while ($content = xtc_db_fetch_array($content_query)) {

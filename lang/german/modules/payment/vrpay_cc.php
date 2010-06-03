@@ -50,7 +50,10 @@
 	define('MODULE_PAYMENT_VRPAY_CC_URLAGB_TITLE', 'Content Seite AGB');
 	define('MODULE_PAYMENT_VRPAY_CC_URLAGB_DESC', 'Content Seite f&uuml;r die Verlinkung Ihrer allgemeinen Gesch&auml;ftsbedingungen im VR-Pay virtuell Dialogfenster');
 
-	define('MODULE_PAYMENT_VRPAY_CC_REFERENCEPREFIX_TITLE', 'Pr&auml;fix f&uuml; Referenz');
+	define('MODULE_PAYMENT_VRPAY_CC_URLCVC_TITLE', 'Content Seite CVC');
+	define('MODULE_PAYMENT_VRPAY_CC_URLCVC_DESC', 'Content Seite f&uuml;r die Verlinkung einer Hilfe zur Kartenpr&uuml;fnummer im VR-Pay virtuell Dialogfenster (optional)');
+		
+	define('MODULE_PAYMENT_VRPAY_CC_REFERENCEPREFIX_TITLE', 'Pr&auml;fix f&uuml;r Referenz');
 	define('MODULE_PAYMENT_VRPAY_CC_REFERENCEPREFIX_DESC', 'Standardm&auml;&szlig;ig wird die Bestellnummer als Referenz an VR-Pay &uuml;bergeben. Ist die Bestellnummer bei VR-Pay nicht einmalig, z.B. wenn Zahlungen mehrerer Shopsysteme abgewickelt werden, kann ein Pr&auml;fix verwendet werden. Die Referenz darf insg. 20 Zeichen nicht &uuml;berschreiten.');
 
 	define('MODULE_PAYMENT_VRPAY_CC_ANTWGEHEIMNIS_TITLE', 'Geheimwort f&uuml;r Callback');
@@ -62,14 +65,33 @@
 	define('MODULE_PAYMENT_VRPAY_CC_VERWENDUNG2_TITLE', 'Verwendungszweck 2');
 	define('MODULE_PAYMENT_VRPAY_CC_VERWENDUNG2_DESC', 'Verwendungszweckzeile 2');
 
+	define('MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID_TITLE' , 'Bestellstatus festlegen');
+	define('MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID_DESC' , 'Bestellungen, welche mit diesem Modul gemacht werden, auf diesen Status setzen');
+	
+	define('MODULE_PAYMENT_VRPAY_CC_TMP_STATUS_ID_TITLE','Tempor&auml;er Bestellstatus');
+	define('MODULE_PAYMENT_VRPAY_CC_TMP_STATUS_ID_DESC','Bestellstatus f&auml;r noch nicht abgeschlossene Transaktionen');
+	
+	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA_TITLE', 'VISA akzeptieren');
+	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA_DESC', 'VISA Akzeptanzvertrag erforderlich. Bitte wenden Sie sich an Ihre Volks- und Raiffeisenbank.');
+	
+	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_ECMC_TITLE', 'Master Card akzeptieren');
+	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_ECMC_DESC', 'Master Card Akzeptanzvertrag erforderlich. Bitte wenden Sie sich an Ihre Volks- und Raiffeisenbank.');
+	
+	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_AMEX_TITLE', 'AMERICAN EXPRESS akzeptieren');
+	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_AMEX_DESC', 'American Express Akzeptanzvertrag erforderlich. Bitte wenden Sie sich an Ihre Volks- und Raiffeisenbank.');
+	
+	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_DINERS_TITLE', 'Diners Club akzeptieren');
+	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_DINERS_DESC', 'Diners Club Akzeptanzvertrag erforderlich. Bitte wenden Sie sich an Ihre Volks- und Raiffeisenbank.');
+	
+	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB_TITLE', 'JCB akzeptieren');
+	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB_DESC', 'JCB Akzeptanzvertrag erforderlich. Bitte wenden Sie sich an Ihre Volks- und Raiffeisenbank.');
 
-
-
-
-	define('MODULE_PAYMENT_VRPAY_CC_TEXT_ERR01', 'Ihre Transaktion ist fehlgeschlagen. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
-	define('MODULE_PAYMENT_VRPAY_CC_TEXT_ERR02', 'Bezahlsystem vor&uuml;bergehend nicht erreichbar. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
-	define('MODULE_PAYMENT_VRPAY_CC_TEXT_ERR03', 'Bezahlsystem vor&uuml;bergehend nicht erreichbar.');
-	define('MODULE_PAYMENT_VRPAY_CC_TEXT_MSG01', '<b>Bitte w&auml;hlen Sie eine Zahlungsweise aus. Klicken Sie dazu bitte auf das entsprechende Logo.</b>');
-
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_FAILED', 'Ihre Transaktion ist fehlgeschlagen. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_CANCELED', 'Transaktion abgebrochen. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_UNAVAILABLE', 'Bezahlsystem vor&uuml;bergehend nicht erreichbar. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');	
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_AUTHENTICATION', 'Anmeldung am Bezahlsystem fehlgeschlagen. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_UNKNOWN_ERROR', 'Ein unbekannter Fehler ist aufgetreten. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_CURRENCY_NOT_SUPPORTED', 'Die W&auml;hrung wird von dieser Bezahlmethode nicht unterst&uuml;tzt. Bitte &auml;ndern Sie die W&auml;hrung oder w&auml;hlen Sie eine alternative Bezahlmethode.');
+	
 	
 ?>
