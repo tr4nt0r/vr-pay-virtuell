@@ -66,6 +66,9 @@
 
 	define('MODULE_PAYMENT_VRPAY_ELV_ORDER_STATUS_ID_TITLE' , 'Bestellstatus festlegen');
 	define('MODULE_PAYMENT_VRPAY_ELV_ORDER_STATUS_ID_DESC' , 'Bestellungen, welche mit diesem Modul gemacht werden, auf diesen Status setzen');
+
+	define('MODULE_PAYMENT_VRPAY_ELV_ORDER_FAILED_STATUS_ID_TITLE' , 'Bestellstatus Fehler');
+	define('MODULE_PAYMENT_VRPAY_ELV_ORDER_FAILED_STATUS_ID_DESC' , 'Bestellungen, die abgelehnt werden, aus technischen Gr&uuml;nden fehlschlagen oder vom Kunden vorzeitig abgebrochen werden, auf diesen Status setzen.');
 	
 	define('MODULE_PAYMENT_VRPAY_ELV_TMP_STATUS_ID_TITLE','Tempor&auml;er Bestellstatus');
 	define('MODULE_PAYMENT_VRPAY_ELV_TMP_STATUS_ID_DESC','Bestellstatus f&auml;r noch nicht abgeschlossene Transaktionen');
