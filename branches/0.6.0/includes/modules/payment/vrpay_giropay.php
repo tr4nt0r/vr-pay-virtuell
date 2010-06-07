@@ -40,8 +40,8 @@ class vrpay_giropay extends vrpay_checkout {
 			$this->order_status = MODULE_PAYMENT_VRPAY_GIROPAY_ORDER_STATUS_ID;
 		}
 		
-		if ((int) MODULE_PAYMENT_VRPAY_GIROPAY_ORDER_STATUS_ID > 0) {
-			$this->order_status = MODULE_PAYMENT_VRPAY_GIROPAY_ORDER_STATUS_ID;
+		if ((int) MODULE_PAYMENT_VRPAY_GIROPAY_ORDER_FAILED_STATUS_ID > 0) {
+			$this->failed_order_status = MODULE_PAYMENT_VRPAY_GIROPAY_ORDER_FAILED_STATUS_ID;
 		}
 		
 		
@@ -190,8 +190,14 @@ class vrpay_giropay extends vrpay_checkout {
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_VERWENDUNG2', '". STORE_NAME ."', '6', '27', now())");
 		
 		xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, use_function, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_ORDER_STATUS_ID', '0',  '6', '50', 'xtc_cfg_pull_down_order_statuses(', 'xtc_get_order_status_name', now())");
-		xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, use_function, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_TMP_STATUS_ID', '0',  '6', '51', 'xtc_cfg_pull_down_order_statuses(', 'xtc_get_order_status_name', now())");
+		xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, use_function, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_ORDER_FAILED_STATUS_ID', '0',  '6', '51', 'xtc_cfg_pull_down_order_statuses(', 'xtc_get_order_status_name', now())");
+		xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, use_function, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_TMP_STATUS_ID', '0',  '6', '52', 'xtc_cfg_pull_down_order_statuses(', 'xtc_get_order_status_name', now())");
 	
+		if(!$this->column_exists('vrpay', TABLE_ADMIN_ACCESS)) {
+			xtc_db_query('ALTER TABLE ' . TABLE_ADMIN_ACCESS . ' ADD vrpay int(1) NOT NULL');
+			xtc_db_perform(TABLE_ADMIN_ACCESS, array('vrpay' => 1), 'customers_id = 1');
+			xtc_db_perform(TABLE_ADMIN_ACCESS, array('vrpay' => 2), 'customers_id = \'groups\'');
+		}
 	}
 
 	/**

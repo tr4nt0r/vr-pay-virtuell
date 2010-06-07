@@ -46,10 +46,11 @@ class vrpay_callback {
 			$oID = substr_replace($this->data['REFERENZNR'],'',  0, strlen(MODULE_PAYMENT_VRPAY_SHARED_REFERENCEPREFIX));
 		}
 
-		$order_query = xtc_db_query('SELECT orders_id FROM ' . TABLE_ORDERS . ' WHERE orders_id = \'' . xtc_db_input($oID) . '\'');
+		$order_query = xtc_db_query('SELECT orders_id, payment_method FROM ' . TABLE_ORDERS . ' WHERE orders_id = \'' . xtc_db_input($oID) . '\'');
 		if(xtc_db_num_rows($order_query)) {
 			$order = xtc_db_fetch_array($order_query);
 			$this->oID = $order['orders_id'];
+			$this->payment_method = $order['payment_method'];
 			return true;
 		} else {
 			return false;
@@ -93,7 +94,40 @@ class vrpay_callback {
 	
 	
 	private function update_status() {
+		$new_status = 0;
 		
+		switch ($this->payment_method) {
+			case 'vrpay_cc':
+				$this->order_status = MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID;
+				$this->failed_order_status = MODULE_PAYMENT_VRPAY_CC_ORDER_FAILED_STATUS_ID;
+				break;
+			case 'vrpay_giropay':
+				$this->order_status = MODULE_PAYMENT_VRPAY_GIROPAY_ORDER_STATUS_ID;
+				$this->failed_order_status = MODULE_PAYMENT_VRPAY_GIROPAY_ORDER_FAILED_STATUS_ID;
+				break;
+			case 'vrpay_elv':
+				$this->order_status = MODULE_PAYMENT_VRPAY_ELV_ORDER_STATUS_ID;
+				$this->failed_order_status = MODULE_PAYMENT_VRPAY_ELV_ORDER_FAILED_STATUS_ID;
+				break;
+		}
+		
+		switch ($this->data['STATUS']) {
+
+			case 'RESERVIERT' :
+			case 'GEBUCHT':
+				$new_status = $this->order_status;
+				break;
+
+			case 'ABGELEHNT' :
+			case 'IN BEARBEITUNG' :
+				$new_status = $this->failed_order_status;
+				break;
+		}
+		
+		if($new_status) {
+			xtc_db_query("UPDATE " . TABLE_ORDERS . " SET orders_status='" . (int) $new_status . "' WHERE orders_id='" . (int) $this->oID . "'");
+			xtc_db_query("insert into " . TABLE_ORDERS_STATUS_HISTORY . " (orders_id, orders_status_id, date_added, customer_notified) values ('" . (int) $this->oID . "', '" . (int) $new_status . "', now(), '0')");
+		}
 	}
 }
 
