@@ -40,10 +40,6 @@ class vrpay_giropay extends vrpay_checkout {
 			$this->order_status = MODULE_PAYMENT_VRPAY_GIROPAY_ORDER_STATUS_ID;
 		}
 		
-		if ((int) MODULE_PAYMENT_VRPAY_GIROPAY_ORDER_FAILED_STATUS_ID > 0) {
-			$this->failed_order_status = MODULE_PAYMENT_VRPAY_GIROPAY_ORDER_FAILED_STATUS_ID;
-		}
-		
 		
 		
 		$this->GATEWAY = MODULE_PAYMENT_VRPAY_SHARED_GATEWAY;
@@ -182,9 +178,8 @@ class vrpay_giropay extends vrpay_checkout {
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_SHARED_REFERENCEPREFIX', '', '6', '25', now())");
 		if(!$this->config_value_exists('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS'))
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS', '', '6', '24', now())");
-
-		
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_URLAGB', '3', '6', '40', 'xtc_cfg_pull_down_content(false, ', now())");
+		if(!$this->config_value_exists('MODULE_PAYMENT_VRPAY_SHARED_URLAGB'))
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_SHARED_URLAGB', '3', '6', '40', 'xtc_cfg_pull_down_content(false, ', now())");
 		
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_VERWENDUNG1', '', '6', '26', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_GIROPAY_VERWENDUNG2', '". STORE_NAME ."', '6', '27', now())");
@@ -195,9 +190,11 @@ class vrpay_giropay extends vrpay_checkout {
 	
 		if(!$this->column_exists('vrpay', TABLE_ADMIN_ACCESS)) {
 			xtc_db_query('ALTER TABLE ' . TABLE_ADMIN_ACCESS . ' ADD vrpay int(1) NOT NULL');
-			xtc_db_perform(TABLE_ADMIN_ACCESS, array('vrpay' => 1), 'customers_id = 1');
-			xtc_db_perform(TABLE_ADMIN_ACCESS, array('vrpay' => 2), 'customers_id = \'groups\'');
+			xtc_db_perform(TABLE_ADMIN_ACCESS, array('vrpay' => 1), 'update', 'customers_id = 1');
+			xtc_db_perform(TABLE_ADMIN_ACCESS, array('vrpay' => 2), 'update', 'customers_id = \'groups\'');
 		}
+
+		xtc_db_query('CREATE TABLE IF NOT EXISTS `payment_vrpay` (`id` int(11) NOT NULL AUTO_INCREMENT,`order_id` int(11) NOT NULL, `REFERENZNR` varchar(20) NOT NULL, `BETRAG` int(11) NOT NULL, `WAEHRUNG` varchar(3) NOT NULL, `ZAHLART` varchar(20) NOT NULL, `STATUS` varchar(20) NOT NULL, `RMSG` varchar(255) NOT NULL,  `ZEITPUNKT` datetime NOT NULL, `TSAID` varchar(32) NOT NULL, `SICHERHEIT` varchar(64) NOT NULL, `BRAND` varchar(20) NOT NULL, `KONTONR` varchar(10) NOT NULL, `BLZ` varchar(8) NOT NULL, `KREDITKARTENNR` varchar(20) NOT NULL, `VERFALLSDATUM` varchar(4) NOT NULL, `NACHRICHTNR` int(11) NOT NULL, PRIMARY KEY (`id`))');
 	}
 
 	/**

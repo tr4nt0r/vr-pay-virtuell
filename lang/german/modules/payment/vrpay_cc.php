@@ -50,13 +50,13 @@
 
 		define('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS_TITLE', 'Geheimwort f&uuml;r Callback');
 		define('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS_DESC', 'Alle Transaktionen werden &uuml;ber einen Benachrichtigungsdienst mit dem endg&uuml;ltigen Status versehen, um Manipulationen auszuschliessen werden Benachrichtigungen mit diesem Geheimwort signiert.');
+
+		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_TITLE', 'Content Seite AGB');
+		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_DESC', 'Content Seite f&uuml;r die Verlinkung Ihrer allgemeinen Gesch&auml;ftsbedingungen im VR-Pay virtuell Dialogfenster');
 	}
 	
 	define('MODULE_PAYMENT_VRPAY_CC_ZAHLART_TITLE', 'Zahlart');
 	define('MODULE_PAYMENT_VRPAY_CC_ZAHLART_DESC', 'Zahlart gibt an, wie die Transaktionen von VR-Pay virtuell verarbeitet werden.');
-
-	define('MODULE_PAYMENT_VRPAY_CC_URLAGB_TITLE', 'Content Seite AGB');
-	define('MODULE_PAYMENT_VRPAY_CC_URLAGB_DESC', 'Content Seite f&uuml;r die Verlinkung Ihrer allgemeinen Gesch&auml;ftsbedingungen im VR-Pay virtuell Dialogfenster');
 
 	define('MODULE_PAYMENT_VRPAY_CC_URLCVC_TITLE', 'Content Seite CVC');
 	define('MODULE_PAYMENT_VRPAY_CC_URLCVC_DESC', 'Content Seite f&uuml;r die Verlinkung einer Hilfe zur Kartenpr&uuml;fnummer im VR-Pay virtuell Dialogfenster (optional)');
