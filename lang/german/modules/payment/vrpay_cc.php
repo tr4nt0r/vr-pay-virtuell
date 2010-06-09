@@ -20,7 +20,7 @@
 
 
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_TITLE', 'Kreditkarte');
-	define('MODULE_PAYMENT_VRPAY_CC_TEXT_DESC', xtc_image(DIR_WS_ICONS . 'vrepay/VR.gif', 'Kreditkarte', '', '', ' align="middle"' ) . 'VR-Pay virtuell Kreditkarte<br>Zahlungsmodul f&uuml;r Kreditkarten<br><br>Bitte wenden Sie sich an Ihre Volks- und Raiffeisenbank.<br>');
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_DESC', xtc_image('../'.DIR_WS_ICONS . 'vrpay/VR.gif', 'Kreditkarte', '', '', ' align="middle"' ) . 'VR-Pay virtuell Kreditkarte<br>Zahlungsmodul f&uuml;r Kreditkarten<br><br>Bitte wenden Sie sich an Ihre Volks- und Raiffeisenbank.<br>');
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_INFO', '');
 
 	define('MODULE_PAYMENT_VRPAY_CC_ZONE_TITLE', 'Zahlungszone');
