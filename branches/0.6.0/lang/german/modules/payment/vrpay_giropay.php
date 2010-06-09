@@ -50,11 +50,11 @@
 
 		define('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS_TITLE', 'Geheimwort f&uuml;r Callback');
 		define('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS_DESC', 'Alle Transaktionen werden &uuml;ber einen Benachrichtigungsdienst mit dem endg&uuml;ltigen Status versehen, um Manipulationen auszuschliessen werden Benachrichtigungen mit diesem Geheimwort signiert.');
+
+		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_TITLE', 'Content Seite AGB');
+		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_DESC', 'Content Seite f&uuml;r die Verlinkung Ihrer allgemeinen Gesch&auml;ftsbedingungen im VR-Pay virtuell Dialogfenster');
 	}
 	
-	define('MODULE_PAYMENT_VRPAY_GIROPAY_URLAGB_TITLE', 'Content Seite AGB');
-	define('MODULE_PAYMENT_VRPAY_GIROPAY_URLAGB_DESC', 'Content Seite f&uuml;r die Verlinkung Ihrer allgemeinen Gesch&auml;ftsbedingungen im VR-Pay virtuell Dialogfenster');
-
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_VERWENDUNG1_TITLE', 'Verwendungszweck 1');
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_VERWENDUNG1_DESC', 'Verwendungszweckzeile 1');
 
@@ -76,6 +76,9 @@
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_GATEWAY_AUTHENTICATION', 'Anmeldung am Bezahlsystem fehlgeschlagen. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_UNKNOWN_ERROR', 'Ein unbekannter Fehler ist aufgetreten. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_CURRENCY_NOT_SUPPORTED', 'Die W&auml;hrung wird von dieser Bezahlmethode nicht unterst&uuml;tzt. Bitte &auml;ndern Sie die W&auml;hrung oder w&auml;hlen Sie eine alternative Bezahlmethode.');
-	
+		
+	define('TEXT_VRPAY_CC_PAYMENT', 'Zahlungsstatus');
+	define('TEXT_VRPAY_CC_SICHERHEIT', 'Sicherheitsmerkmale:');
+	define('TEXT_VRPAY_CC_BETRAG', 'Betrag:');
 	
 ?>
