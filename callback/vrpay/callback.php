@@ -10,7 +10,8 @@
  * @license     GNU/GPL, see LICENSE.txt
  * @author		Manfred Dennerlein <manni@zapto.de>
  */
-include ('../../includes/application_top_callback.php');
+chdir('../../');
+require ('includes/application_top.php');
 include (DIR_FS_DOCUMENT_ROOT.'callback/vrpay/class.vrpay_callback.php');
 
 $callback = new vrpay_callback();
