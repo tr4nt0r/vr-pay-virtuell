@@ -96,17 +96,17 @@ class vrpay_checkout {
 		//Warenkorb		
 		for($i = 0; $i < count($order->products); $i++) {
 			$post_data['ARTIKELNR' . ($i+1)] = ($order->products[$i]['model']) ? $order->products[$i]['model'] : $order->products[$i]['id'];
-			$post_data['ARTIKELBEZ' . ($i+1)] = utf8_decode($order->products[$i]['name']);
+			$post_data['ARTIKELBEZ' . ($i+1)] = $order->products[$i]['name'];
 			$post_data['ANZAHL' . ($i+1)] = (int)$order->products[$i]['qty'];
 			$post_data['EINZELPREIS' . ($i+1)] = $order->products[$i]['price'] * pow(10, $xtPrice->get_decimal_places( $order->info['currency'] ) );
 		}
 
 		//Transaktion
 		$post_data['SERVICENAME'] 	= $this->SERVICENAME;
-		$post_data['VERWENDUNG2'] =  utf8_decode(substr($this->VERWENDUNG1, 0, 25));
+		$post_data['VERWENDUNG2'] =  substr($this->VERWENDUNG1, 0, 25);
 		
 		if($this->VERWENDUNG2 != '') {
-			$post_data['VERWENDUNG2'] = utf8_decode(substr($this->VERWENDUNG2, 0, 25));
+			$post_data['VERWENDUNG2'] = substr($this->VERWENDUNG2, 0, 25);
 			$post_data['VERWENDANZ'] = 2;
 		} else {
 			$post_data['VERWENDANZ'] = 1;	
@@ -188,6 +188,9 @@ class vrpay_checkout {
 				break;
 		}
 
+		foreach($post_data as $k => $v) {
+			$post_data[$k] = iconv( strtoupper($_SESSION['language_charset']), 'ISO-8859-1//TRANSLIT', $post_data[$k]);
+		}
 
 		return $post_data;
 	}
