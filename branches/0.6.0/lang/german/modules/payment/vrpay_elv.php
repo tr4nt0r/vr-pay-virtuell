@@ -59,10 +59,10 @@
 	define('MODULE_PAYMENT_VRPAY_ELV_ZAHLART_DESC', 'Zahlart gibt an, wie die Transaktionen von VR-Pay virtuell verarbeitet werden.');
 
 	define('MODULE_PAYMENT_VRPAY_ELV_VERWENDUNG1_TITLE', 'Verwendungszweck 1');
-	define('MODULE_PAYMENT_VRPAY_ELV_VERWENDUNG1_DESC', 'Verwendungszweckzeile 1');
+	define('MODULE_PAYMENT_VRPAY_ELV_VERWENDUNG1_DESC', 'Verwendungszweckzeile 1. Folgende Platzhalter werden ersetzt: {$order_id}, {$customers_cid}, {$customers_name}, {$customers_lastname}, {$customers_firstname}, {$customers_company}, {$customers_city}, {$customers_email_address}');
 
 	define('MODULE_PAYMENT_VRPAY_ELV_VERWENDUNG2_TITLE', 'Verwendungszweck 2');
-	define('MODULE_PAYMENT_VRPAY_ELV_VERWENDUNG2_DESC', 'Verwendungszweckzeile 2');
+	define('MODULE_PAYMENT_VRPAY_ELV_VERWENDUNG2_DESC', 'Verwendungszweckzeile 2. Folgende Platzhalter werden ersetzt: {$order_id}, {$customers_cid}, {$customers_name}, {$customers_lastname}, {$customers_firstname}, {$customers_company}, {$customers_city}, {$customers_email_address}');
 	
 	define('MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY_TITLE', 'VR Pay virtuell Logo');
 	define('MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY_DESC', 'Soll das VR Pay virtuell Logo auf Bezahlseite neben den Logos der Zahlart angezeigt werden?');
