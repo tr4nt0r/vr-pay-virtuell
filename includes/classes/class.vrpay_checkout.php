@@ -103,10 +103,14 @@ class vrpay_checkout {
 
 		//Transaktion
 		$post_data['SERVICENAME'] 	= $this->SERVICENAME;
-		$post_data['VERWENDUNG2'] =  substr($this->VERWENDUNG1, 0, 25);
+		
+		$array_search = array('{$order_id}', '{$customers_cid}', '{$customers_name}', '{$customers_lastname}', '{$customers_firstname}', '{$customers_company}', '{$customers_city}', '{$customers_email_address}');
+		$array_replace = array($order_id, $order->customer['csID'], $order->customer['firstname'] . ' ' . $order->customer['lastname'], $order->customer['lastname'], $order->customer['firstname'], $order->customer['company'], $order->customer['city'], $order->customer['email_address']);
+		
+		$post_data['VERWENDUNG2'] =  substr(str_replace($array_search, $array_replace, $this->VERWENDUNG1), 0, 25);
 		
 		if($this->VERWENDUNG2 != '') {
-			$post_data['VERWENDUNG2'] = substr($this->VERWENDUNG2, 0, 25);
+			$post_data['VERWENDUNG2'] = substr(str_replace($array_search, $array_replace, $this->VERWENDUNG2), 0, 25);
 			$post_data['VERWENDANZ'] = 2;
 		} else {
 			$post_data['VERWENDANZ'] = 1;	
