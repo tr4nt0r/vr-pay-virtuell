@@ -91,6 +91,9 @@
 	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB_TITLE', 'JCB akzeptieren');
 	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB_DESC', 'JCB Akzeptanzvertrag erforderlich. Bitte wenden Sie sich an Ihre Volks- und Raiffeisenbank.');
 
+	define('MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY_TITLE', 'VR Pay virtuell Logo');
+	define('MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY_DESC', 'Soll das VR Pay virtuell Logo auf Bezahlseite neben den Logos der Zahlart angezeigt werden?');
+	
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_FAILED', 'Ihre Transaktion ist fehlgeschlagen. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_CANCELED', 'Transaktion abgebrochen. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_UNAVAILABLE', 'Bezahlsystem vor&uuml;bergehend nicht erreichbar. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');	

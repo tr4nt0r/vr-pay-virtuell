@@ -61,6 +61,9 @@
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_VERWENDUNG2_TITLE', 'Verwendungszweck 2');
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_VERWENDUNG2_DESC', 'Verwendungszweckzeile 2');
 
+	define('MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY_TITLE', 'VR Pay virtuell Logo');
+	define('MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY_DESC', 'Soll das VR Pay virtuell Logo auf Bezahlseite neben den Logos der Zahlart angezeigt werden?');
+	
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_ORDER_STATUS_ID_TITLE' , 'Bestellstatus festlegen');
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_ORDER_STATUS_ID_DESC' , 'Bestellungen, welche mit diesem Modul gemacht werden, auf diesen Status setzen');
 

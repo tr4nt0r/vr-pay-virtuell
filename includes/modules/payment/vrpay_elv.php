@@ -60,6 +60,7 @@ class vrpay_elv extends vrpay_checkout {
 		
 		
 		$this->icons = xtc_image(DIR_WS_ICONS . 'vrpay/elv.png') ;
+		$this->icons .= (MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY == 'True') ? ' ' . xtc_image(DIR_WS_ICONS . 'vrpay/vrpay.png') : '';
 		
 		$this->icons_available = xtc_image(DIR_WS_ICONS . 'elv_small.jpg');
 	}
@@ -187,6 +188,7 @@ class vrpay_elv extends vrpay_checkout {
 		
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_ELV_VERWENDUNG1', '', '6', '26', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_ELV_VERWENDUNG2', '". STORE_NAME ."', '6', '27', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_ELV_SHOW_VRPAY', 'True', '6', '35', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
 		
 		xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, use_function, date_added) values ('MODULE_PAYMENT_VRPAY_ELV_ORDER_STATUS_ID', '0',  '6', '50', 'xtc_cfg_pull_down_order_statuses(', 'xtc_get_order_status_name', now())");
 		xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, use_function, date_added) values ('MODULE_PAYMENT_VRPAY_ELV_ORDER_FAILED_STATUS_ID', '0',  '6', '50', 'xtc_cfg_pull_down_order_statuses(', 'xtc_get_order_status_name', now())");
