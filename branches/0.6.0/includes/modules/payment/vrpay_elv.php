@@ -236,6 +236,15 @@ class vrpay_elv extends vrpay_checkout {
 			return false;
 		}
 	}
+	
+	function column_exists($column, $table) {
+		$check_columns_query = xtc_db_query('SHOW COLUMNS FROM ' . xtc_db_input($table) . ' LIKE \''.xtc_db_input($column).'\'');
+		if($check_columns = xtc_db_fetch_array($check_columns_query)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }
 
