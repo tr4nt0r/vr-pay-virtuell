@@ -50,13 +50,13 @@
 
 		define('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS_TITLE', 'Secret for Callback');
 		define('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS_DESC', 'All transactions will be provided with a notification service with the final status. To prevent tampering notifications are signed with this secret.');
+				
+		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_TITLE', 'Content Page Conditions');
+		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_DESC', 'content page for conditions that is linked from VR-Pay virtuell dialog');		
 	}
 
 	define('MODULE_PAYMENT_VRPAY_ELV_ZAHLART_TITLE', 'Payment method');
 	define('MODULE_PAYMENT_VRPAY_ELV_ZAHLART_DESC', 'Type of transaction that is communicated to VR-Pay virtuell.');
-
-	define('MODULE_PAYMENT_VRPAY_ELV_URLAGB_TITLE', 'Content Page Conditions');
-	define('MODULE_PAYMENT_VRPAY_ELV_URLAGB_DESC', 'content page for conditions that is linked from VR-Pay virtuell dialog');
 
 	define('MODULE_PAYMENT_VRPAY_ELV_VERWENDUNG1_TITLE', 'Purpose 1');
 	define('MODULE_PAYMENT_VRPAY_ELV_VERWENDUNG1_DESC', 'Purpose line 1');
@@ -66,6 +66,9 @@
 
 	define('MODULE_PAYMENT_VRPAY_ELV_ORDER_STATUS_ID_TITLE' , 'Set Order Status');
 	define('MODULE_PAYMENT_VRPAY_ELV_ORDER_STATUS_ID_DESC' , 'Set the status of orders made with this payment module to this value');
+		
+	define('MODULE_PAYMENT_VRPAY_ELV_ORDER_FAILED_STATUS_ID_TITLE' , 'Set Order Status Failed');
+	define('MODULE_PAYMENT_VRPAY_ELV_ORDER_FAILED_STATUS_ID_DESC' , 'Orders for which payment is declined, fail for other technical reasons or are canceled by the customer, will be set to this status.');
 	
 	define('MODULE_PAYMENT_VRPAY_ELV_TMP_STATUS_ID_TITLE','Pending Order Status');
 	define('MODULE_PAYMENT_VRPAY_ELV_TMP_STATUS_ID_DESC','Set the status for pending transactions');
@@ -76,6 +79,9 @@
 	define('MODULE_PAYMENT_VRPAY_ELV_TEXT_GATEWAY_AUTHENTICATION', 'Authentication with payment system failed. Please choose a different payment method.');
 	define('MODULE_PAYMENT_VRPAY_ELV_TEXT_UNKNOWN_ERROR', 'Unknown error. Please choose a different payment method.');
 	define('MODULE_PAYMENT_VRPAY_ELV_TEXT_CURRENCY_NOT_SUPPORTED', 'The currency is not supported by the payment method. Please change the currency or choose a different payment method.');
-	
+		
+	define('TEXT_VRPAY_CC_PAYMENT', 'Payment Status');
+	define('TEXT_VRPAY_CC_SICHERHEIT', 'Security features');
+	define('TEXT_VRPAY_CC_BETRAG', 'Amount:');
 	
 ?>

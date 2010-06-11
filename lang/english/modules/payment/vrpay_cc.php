@@ -36,6 +36,7 @@
 	define('MODULE_PAYMENT_VRPAY_CC_STATUS_DESC', 'Do you want to accept credit card payments with VR-Pay virtuell?');
 
 	if(!defined('MODULE_PAYMENT_VRPAY_SHARED_GATEWAY_TITLE')) {
+
 		define('MODULE_PAYMENT_VRPAY_SHARED_GATEWAY_TITLE', 'VR-Pay virtuell Gateway');
 		define('MODULE_PAYMENT_VRPAY_SHARED_GATEWAY_DESC', 'Operate VR-Pay virtuell in live or test mode');
 
@@ -50,12 +51,13 @@
 
 		define('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS_TITLE', 'Secret for Callback');
 		define('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS_DESC', 'All transactions will be provided with a notification service with the final status. To prevent tampering notifications are signed with this secret.');
+		
+		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_TITLE', 'Content Page Conditions');
+		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_DESC', 'content page for conditions that is linked from VR-Pay virtuell dialog');		
 	}
+	
 	define('MODULE_PAYMENT_VRPAY_CC_ZAHLART_TITLE', 'Payment method');
 	define('MODULE_PAYMENT_VRPAY_CC_ZAHLART_DESC', 'Type of transaction that is communicated to VR-Pay virtuell.');
-
-	define('MODULE_PAYMENT_VRPAY_CC_URLAGB_TITLE', 'Content Page Conditions');
-	define('MODULE_PAYMENT_VRPAY_CC_URLAGB_DESC', 'content page for conditions that is linked from VR-Pay virtuell dialog');
 
 	define('MODULE_PAYMENT_VRPAY_CC_URLCVC_TITLE', 'Content Page CVC');
 	define('MODULE_PAYMENT_VRPAY_CC_URLCVC_DESC', 'Content Page for help on card verification number that is linked from VR-Pay virtuell dialog (optional)');
@@ -68,6 +70,9 @@
 
 	define('MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID_TITLE' , 'Set Order Status');
 	define('MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID_DESC' , 'Set the status of orders made with this payment module to this value');
+
+	define('MODULE_PAYMENT_VRPAY_CC_ORDER_FAILED_STATUS_ID_TITLE' , 'Set Order Status Failed');
+	define('MODULE_PAYMENT_VRPAY_CC_ORDER_FAILED_STATUS_ID_DESC' , 'Orders for which payment is declined, fail for other technical reasons or are canceled by the customer, will be set to this status.');
 	
 	define('MODULE_PAYMENT_VRPAY_CC_TMP_STATUS_ID_TITLE','Pending Order Status');
 	define('MODULE_PAYMENT_VRPAY_CC_TMP_STATUS_ID_DESC','Set the status for pending transactions');
@@ -86,7 +91,10 @@
 	
 	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB_TITLE', 'Accept JCB cards');
 	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB_DESC', '');
-
+	
+	define('MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY_TITLE', 'VR Pay virtuell Logo');
+	define('MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY_DESC', 'Should the VR Pay virtuell Logo be shown on the payment page next to the logos of the payment method?');
+	
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_FAILED', 'Your transaction failed. Please choose a different payment method.');
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_CANCELED', 'Transaction canceled. Please choose a different payment method.');
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_UNAVAILABLE', 'Payment system temporarily unavailable. Please choose a different payment method.');	
@@ -94,5 +102,8 @@
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_UNKNOWN_ERROR', 'Unknown error. Please choose a different payment method.');
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_CURRENCY_NOT_SUPPORTED', 'The currency is not supported by the payment method. Please change the currency or choose a different payment method.');
 	
+	define('TEXT_VRPAY_CC_PAYMENT', 'Payment Status');
+	define('TEXT_VRPAY_CC_SICHERHEIT', 'Security features');
+	define('TEXT_VRPAY_CC_BETRAG', 'Amount:');
 	
 ?>
