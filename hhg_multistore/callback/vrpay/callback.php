@@ -11,8 +11,8 @@
  * @author		Manfred Dennerlein <manni@zapto.de>
  */
 chdir('../../');
-require ('includes/application_top.php');
-include (DIR_FS_DOCUMENT_ROOT.'callback/vrpay/class.vrpay_callback.php');
+require ('core/application_top.php');
+include (DIR_FS_CATALOG.'callback/vrpay/class.vrpay_callback.php');
 
 $callback = new vrpay_callback();
 
