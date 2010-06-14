@@ -24,7 +24,7 @@ class vrpay_cc extends vrpay_checkout {
 
 	// class constructor
 	function vrpay_cc() {
-
+		$this->store_id = hhg_get_store_id();
 		// module description
 		$this->code			= 'vrpay_cc';
 		$this->title		= MODULE_PAYMENT_VRPAY_CC_TEXT_TITLE;
@@ -73,11 +73,6 @@ class vrpay_cc extends vrpay_checkout {
 		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB == 'True') ? xtc_image(DIR_WS_ICONS . 'vrpay/jcb.png') : '';
 		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY == 'True') ? xtc_image(DIR_WS_ICONS . 'vrpay/vrpay.png') : '';
 
-		$this->icons_available = xtc_image(DIR_WS_ICONS . 'cc_amex_small.jpg') . ' ' .
-		xtc_image(DIR_WS_ICONS . 'cc_mastercard_small.jpg') . ' ' .
-		xtc_image(DIR_WS_ICONS . 'cc_visa_small.jpg').' ' .
-		xtc_image(DIR_WS_ICONS . 'cc_diners_small.jpg') . ' ' .
-		xtc_image(DIR_WS_ICONS . 'jcb_big.jpg', '', '', 21);
 	}
 
 
