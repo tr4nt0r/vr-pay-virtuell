@@ -55,7 +55,11 @@
 		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_DESC', 'Content Seite f&uuml;r die Verlinkung Ihrer allgemeinen Gesch&auml;ftsbedingungen im VR-Pay virtuell Dialogfenster');
 		
 		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_TITLE', 'Debug Benachrichtigung');
-		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_DESC', 'Im Fehlerfall Debug Benachrichtigungen an diese E-Mail senden.');		
+		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_DESC', 'Im Fehlerfall Debug Benachrichtigungen an diese E-Mail senden.');
+
+		define('MODULE_PAYMENT_VRPAY_SHARED_SUBMITCART_TITLE', 'Warenkorb senden');
+		define('MODULE_PAYMENT_VRPAY_SHARED_SUBMITCART_DESC', 'Warenkorbdaten an VR Pay übermitteln.');
+		
 	}
 	
 	define('MODULE_PAYMENT_VRPAY_CC_ZAHLART_TITLE', 'Zahlart');

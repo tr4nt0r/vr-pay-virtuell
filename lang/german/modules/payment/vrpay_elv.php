@@ -56,6 +56,9 @@
 		
 		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_TITLE', 'Debug Benachrichtigung');
 		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_DESC', 'Im Fehlerfall Debug Benachrichtigungen an diese E-Mail senden.');
+		
+		define('MODULE_PAYMENT_VRPAY_SHARED_SUBMITCART_TITLE', 'Warenkorb senden');
+		define('MODULE_PAYMENT_VRPAY_SHARED_SUBMITCART_DESC', 'Warenkorbdaten an VR Pay übermitteln.');
 	}
 
 	define('MODULE_PAYMENT_VRPAY_ELV_ZAHLART_TITLE', 'Zahlart');

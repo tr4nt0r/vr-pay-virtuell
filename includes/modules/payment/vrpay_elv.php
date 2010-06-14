@@ -58,6 +58,7 @@ class vrpay_elv extends vrpay_checkout {
 		$this->VERWENDUNG2	= MODULE_PAYMENT_VRPAY_ELV_VERWENDUNG2;
 		$this->URLAGB		= MODULE_PAYMENT_VRPAY_SHARED_URLAGB;
 		$this->DEBUG		= MODULE_PAYMENT_VRPAY_SHARED_DEBUG;
+		$this->SUBMITCART = (MODULE_PAYMENT_VRPAY_SHARED_SUBMITCART == 'True') ? true : false;
 		
 		$this->icons = xtc_image(DIR_WS_ICONS . 'vrpay/elv.png') ;
 		$this->icons .= (MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY == 'True') ? ' ' . xtc_image(DIR_WS_ICONS . 'vrpay/vrpay.png') : '';
@@ -184,8 +185,10 @@ class vrpay_elv extends vrpay_checkout {
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS', '', '6', '24', now())");
 		if(!$this->config_value_exists('MODULE_PAYMENT_VRPAY_SHARED_URLAGB'))
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_SHARED_URLAGB', '3', '6', '40', 'xtc_cfg_pull_down_content(false, ', now())");
+		if(!$this->config_value_exists('MODULE_PAYMENT_VRPAY_SHARED_SUBMITCART'))
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_SHARED_SUBMITCART', 'True', '6', '42', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
 		if(!$this->config_value_exists('MODULE_PAYMENT_VRPAY_SHARED_DEBUG'))
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_SHARED_DEBUG', '', '6', '21', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_SHARED_DEBUG', '', '6', '60', now())");
 
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_ELV_ZAHLART', 'RESERVIEREN', '6', '23', 'xtc_cfg_select_option(array(\'RESERVIEREN\', \'KAUFEN\'), ', now())");
 		
