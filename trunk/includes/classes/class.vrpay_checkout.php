@@ -32,7 +32,7 @@ class vrpay_checkout {
 	
 	protected $URLAGB;
 	protected $URLCVC;
-	
+	protected $SUBMITCART;
 	
 	protected $ACTIVATE_VISA;
 	protected $ACTIVATE_ECMC;
@@ -92,16 +92,18 @@ class vrpay_checkout {
 
 		$post_data['WAEHRUNG']		= $order->info['currency'];
 		$post_data['INFOTEXT']		= '';
-		$post_data['ARTIKELANZ']	= count($order->products);
 		
-		//Warenkorb		
-		for($i = 0; $i < count($order->products); $i++) {
-			$post_data['ARTIKELNR' . ($i+1)] = ($order->products[$i]['model']) ? $order->products[$i]['model'] : $order->products[$i]['id'];
-			$post_data['ARTIKELBEZ' . ($i+1)] = $order->products[$i]['name'];
-			$post_data['ANZAHL' . ($i+1)] = (int)$order->products[$i]['qty'];
-			$post_data['EINZELPREIS' . ($i+1)] = $order->products[$i]['price'] * pow(10, $xtPrice->get_decimal_places( $order->info['currency'] ) );
-		}
+		if($this->SUBMITCART) {
+			$post_data['ARTIKELANZ']	= count($order->products);
 
+			//Warenkorb
+			for($i = 0; $i < count($order->products); $i++) {
+				$post_data['ARTIKELNR' . ($i+1)] = ($order->products[$i]['model']) ? $order->products[$i]['model'] : $order->products[$i]['id'];
+				$post_data['ARTIKELBEZ' . ($i+1)] = $order->products[$i]['name'];
+				$post_data['ANZAHL' . ($i+1)] = (int)$order->products[$i]['qty'];
+				$post_data['EINZELPREIS' . ($i+1)] = $order->products[$i]['price'] * pow(10, $xtPrice->get_decimal_places( $order->info['currency'] ) );
+			}
+		}
 		//Transaktion
 		$post_data['SERVICENAME'] 	= $this->SERVICENAME;
 		

@@ -56,6 +56,9 @@
 		
 		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_TITLE', 'Debug Messages');
 		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_DESC', 'Send debug messages to this e-mail address in case of errors.');
+		
+		define('MODULE_PAYMENT_VRPAY_SHARED_SUBMITCART_TITLE', 'Submit Cart');
+		define('MODULE_PAYMENT_VRPAY_SHARED_SUBMITCART_DESC', 'Submit Cart Contents to VR Pay.');
 	}
 
 	define('MODULE_PAYMENT_VRPAY_ELV_ZAHLART_TITLE', 'Payment method');
