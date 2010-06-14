@@ -53,6 +53,9 @@
 				
 		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_TITLE', 'Content Page Conditions');
 		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_DESC', 'content page for conditions that is linked from VR-Pay virtuell dialog');		
+		
+		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_TITLE', 'Debug Messages');
+		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_DESC', 'Send debug messages to this e-mail address in case of errors.');
 	}
 
 	define('MODULE_PAYMENT_VRPAY_ELV_ZAHLART_TITLE', 'Payment method');

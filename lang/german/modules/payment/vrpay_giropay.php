@@ -53,6 +53,9 @@
 
 		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_TITLE', 'Content Seite AGB');
 		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_DESC', 'Content Seite f&uuml;r die Verlinkung Ihrer allgemeinen Gesch&auml;ftsbedingungen im VR-Pay virtuell Dialogfenster');
+		
+		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_TITLE', 'Debug Benachrichtigung');
+		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_DESC', 'Im Fehlerfall Debug Benachrichtigungen an diese E-Mail senden.');
 	}
 	
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_VERWENDUNG1_TITLE', 'Verwendungszweck 1');
@@ -73,13 +76,13 @@
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_TMP_STATUS_ID_TITLE','Tempor&auml;er Bestellstatus');
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_TMP_STATUS_ID_DESC','Bestellstatus f&auml;r noch nicht abgeschlossene Transaktionen');
 	
-	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_FAILED', 'Ihre Transaktion ist fehlgeschlagen. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
-	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_CANCELED', 'Transaktion abgebrochen. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
-	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_GATEWAY_UNAVAILABLE', 'Bezahlsystem vor&uuml;bergehend nicht erreichbar. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');	
-	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_GATEWAY_AUTHENTICATION', 'Anmeldung am Bezahlsystem fehlgeschlagen. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
-	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_UNKNOWN_ERROR', 'Ein unbekannter Fehler ist aufgetreten. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
-	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_CURRENCY_NOT_SUPPORTED', 'Die W&auml;hrung wird von dieser Bezahlmethode nicht unterst&uuml;tzt. Bitte &auml;ndern Sie die W&auml;hrung oder w&auml;hlen Sie eine alternative Bezahlmethode.');
-		
+	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_FAILED', 'Ihre Transaktion ist fehlgeschlagen. Bitte wählen Sie eine alternative Bezahlmethode.');
+	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_CANCELED', 'Transaktion abgebrochen. Bitte wählen Sie eine alternative Bezahlmethode.');
+	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_GATEWAY_UNAVAILABLE', 'Bezahlsystem vorübergehend nicht erreichbar. Bitte wählen Sie eine alternative Bezahlmethode.');	
+	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_GATEWAY_AUTHENTICATION', 'Anmeldung am Bezahlsystem fehlgeschlagen. Bitte wählen Sie eine alternative Bezahlmethode.');
+	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_UNKNOWN_ERROR', 'Ein unbekannter Fehler ist aufgetreten. Bitte wählen Sie eine alternative Bezahlmethode.');
+	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_CURRENCY_NOT_SUPPORTED', 'Die Währung wird von dieser Bezahlmethode nicht unterstützt. Bitte ändern Sie die Währung oder wählen Sie eine alternative Bezahlmethode.');
+			
 	define('TEXT_VRPAY_CC_PAYMENT', 'Zahlungsstatus');
 	define('TEXT_VRPAY_CC_SICHERHEIT', 'Sicherheitsmerkmale:');
 	define('TEXT_VRPAY_CC_BETRAG', 'Betrag:');
