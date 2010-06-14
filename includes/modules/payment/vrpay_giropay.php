@@ -131,8 +131,9 @@ class vrpay_giropay extends vrpay_checkout {
 	/**
 	 * Display Error Message
 	 */
-	function get_error() {
+	function get_error() {	
 		$error = array ('error' => stripslashes(urldecode($_GET['error'])));
+		$error['error'] = iconv( 'UTF-8', strtoupper($_SESSION['language_charset']).'//TRANSLIT', $error['error']);
 		return $error;
 	}
 
