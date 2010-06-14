@@ -19,6 +19,7 @@ class vrpay_checkout {
 		
 	protected $HAENDLERNR;
 	private $PASSWORD;
+	private $post_data = array();
 	
 	protected $REFPREFIX;
 	protected $ZAHLART;
@@ -196,7 +197,7 @@ class vrpay_checkout {
 			$post_data[$k] = iconv( strtoupper($_SESSION['language_charset']), 'ISO-8859-1//TRANSLIT', $post_data[$k]);
 		}
 
-		return $post_data;
+		return $this->post_data = $post_data;
 	}
 	
 	
@@ -238,18 +239,37 @@ class vrpay_checkout {
 					//Im Fehlerfall erfolgt kein Redirect zur Zahlungsseite
 					if($header['redirect_count'] == 0) {
 						parse_str($response);
+						$this->debug_message($header, $response);
 						xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode($FEHLERTEXT), 'SSL', true, false));
 					} else {
 						xtc_redirect($header['url']);
 					}
 					break;
 				case '401':
+					$this->debug_message($header, $response);
 					xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_AUTHENTICATION), 'SSL', true, false));
 					break;
 				default:
+					$this->debug_message($header, $response);
 					xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_UNKNOWN_ERROR), 'SSL', true, false));
 					break;
 			}
+		}
+	}
+	
+	private function debug_message ($header, $response) {
+
+		if($this->DEBUG != '') {
+				
+			$body = '==================================================================' . "\n";
+			$body .= print_r($this->post_data, true);
+			$body .= '==================================================================' ."\n";
+			$body .= print_r($header, true);
+			$body .= '==================================================================' ."\n";
+			$body .= $response;
+
+			error_log($body, 1, $this->DEBUG);
+
 		}
 	}
 }

@@ -52,7 +52,10 @@
 		define('MODULE_PAYMENT_VRPAY_SHARED_ANTWGEHEIMNIS_DESC', 'All transactions will be provided with a notification service with the final status. To prevent tampering notifications are signed with this secret.');
 				
 		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_TITLE', 'Content Page Conditions');
-		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_DESC', 'content page for conditions that is linked from VR-Pay virtuell dialog');		
+		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_DESC', 'content page for conditions that is linked from VR-Pay virtuell dialog');
+
+		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_TITLE', 'Debug Messages');
+		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_DESC', 'Send debug messages to this e-mail address in case of errors.');
 	}
 
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_VERWENDUNG1_TITLE', 'Purpose 1');
