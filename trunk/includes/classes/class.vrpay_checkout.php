@@ -103,6 +103,8 @@ class vrpay_checkout {
 				$post_data['ANZAHL' . ($i+1)] = (int)$order->products[$i]['qty'];
 				$post_data['EINZELPREIS' . ($i+1)] = $order->products[$i]['price'] * pow(10, $xtPrice->get_decimal_places( $order->info['currency'] ) );
 			}
+		} else {
+			$post_data['ARTIKELANZ']	= 0;
 		}
 		//Transaktion
 		$post_data['SERVICENAME'] 	= $this->SERVICENAME;
@@ -217,10 +219,16 @@ class vrpay_checkout {
 		curl_setopt($this->ch, CURLOPT_SSLVERSION, 3);
 		curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, false);
 		curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
 		
+		curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
 
+
+		if (ini_get('open_basedir') == '' && ini_get('safe_mode' == 'Off')) {
+			curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
+		} else {			
+			curl_setopt($this->ch, CURLOPT_HEADER, true);
+		}
 		$response = curl_exec($this->ch);
 
 		$this->process_response($response);
@@ -247,6 +255,27 @@ class vrpay_checkout {
 						xtc_redirect($header['url']);
 					}
 					break;
+				
+				case '302':
+					//Follow Location nicht möglich, weiterleitung "händisch" vornehmen					
+					list($header_raw, $response) = explode("\n\n", $response, 2);
+					$matches = array();
+					preg_match('/(Location:|URI:)(.*?)\n/', $header_raw, $matches);
+					$url = @parse_url(trim(array_pop($matches)));
+					if (!$url) {
+						//redirect url konnte nicht ermittelt werden
+						$this->debug_message($header, $response);
+						xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_UNKNOWN_ERROR), 'SSL', true, false));
+					}
+					//relativen pfad zu absoluten Pfad ergänzen 
+					$last_url = parse_url($header['url']);
+					if (!$url['scheme']) $url['scheme'] = $last_url['scheme'];
+					if (!$url['host']) $url['host'] = $last_url['host'];
+					if (!$url['path']) $url['path'] = $last_url['path'];
+					$new_url = $url['scheme'].'://'.$url['host'].$url['path'].($url['query'] ? '?'.$url['query'] : '');
+					xtc_redirect($new_url);
+					break;
+					
 				case '401':
 					$this->debug_message($header, $response);
 					xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_AUTHENTICATION), 'SSL', true, false));
