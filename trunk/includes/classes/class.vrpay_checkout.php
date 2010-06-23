@@ -29,6 +29,7 @@ class vrpay_checkout {
 	
 	protected $VERWENDUNG1;
 	protected $VERWENDUNG2;
+	protected $INFOTEXT;
 	
 	protected $URLAGB;
 	protected $URLCVC;
@@ -121,6 +122,8 @@ class vrpay_checkout {
 			$post_data['VERWENDANZ'] = 1;	
 		}
 		
+		
+		$post_data['INFOTEXT'] =  substr(str_replace($array_search, $array_replace, $this->INFOTEXT), 0, 1000);
 		
 		
 		$callback_secret = strtoupper(md5($post_data['BETRAG'].$post_data['REFERENZNR'].$this->ANTWGEHEIMNIS));
