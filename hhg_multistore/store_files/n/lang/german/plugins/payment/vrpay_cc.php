@@ -20,7 +20,7 @@
 
 
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_TITLE', 'Kreditkarte');
-	define('MODULE_PAYMENT_VRPAY_CC_TEXT_DESC', xtc_image('../'.DIR_WS_ICONS . 'vrpay/VR.gif', 'Kreditkarte', '', '', ' align="middle"' ) . 'VR-Pay virtuell Kreditkarte<br>Zahlungsmodul f&uuml;r Kreditkarten<br><br>Bitte wenden Sie sich an Ihre Volks- und Raiffeisenbank.<br>');
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_DESC', 'VR-Pay virtuell Kreditkarte<br>Zahlungsmodul f&uuml;r Kreditkarten<br><br>Bitte wenden Sie sich an Ihre Volks- und Raiffeisenbank.<br>');
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_INFO', '');
 
 	define('MODULE_PAYMENT_VRPAY_CC_ZONE_TITLE', 'Zahlungszone');
@@ -53,6 +53,13 @@
 
 		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_TITLE', 'Content Seite AGB');
 		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_DESC', 'Content Seite f&uuml;r die Verlinkung Ihrer allgemeinen Gesch&auml;ftsbedingungen im VR-Pay virtuell Dialogfenster');
+		
+		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_TITLE', 'Debug Benachrichtigung');
+		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_DESC', 'Im Fehlerfall Debug Benachrichtigungen an diese E-Mail senden.');
+
+		define('MODULE_PAYMENT_VRPAY_SHARED_SUBMITCART_TITLE', 'Warenkorb senden');
+		define('MODULE_PAYMENT_VRPAY_SHARED_SUBMITCART_DESC', 'Warenkorbdaten an VR Pay &uuml;bermitteln.');
+		
 	}
 	
 	define('MODULE_PAYMENT_VRPAY_CC_ZAHLART_TITLE', 'Zahlart');
@@ -67,6 +74,9 @@
 	define('MODULE_PAYMENT_VRPAY_CC_VERWENDUNG2_TITLE', 'Verwendungszweck 2');
 	define('MODULE_PAYMENT_VRPAY_CC_VERWENDUNG2_DESC', 'Verwendungszweckzeile 2. Folgende Platzhalter werden ersetzt: {$order_id}, {$customers_cid}, {$customers_name}, {$customers_lastname}, {$customers_firstname}, {$customers_company}, {$customers_city}, {$customers_email_address}');
 
+	define('MODULE_PAYMENT_VRPAY_CC_INFOTEXT_TITLE', 'Infotext');
+	define('MODULE_PAYMENT_VRPAY_CC_INFOTEXT_DESC', 'Infotext (max. 1024 Zeichen). Folgende Platzhalter werden ersetzt: {$order_id}, {$customers_cid}, {$customers_name}, {$customers_lastname}, {$customers_firstname}, {$customers_company}, {$customers_city}, {$customers_email_address}');
+	
 	define('MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID_TITLE' , 'Bestellstatus festlegen');
 	define('MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID_DESC' , 'Bestellungen, welche mit diesem Modul gemacht werden, auf diesen Status setzen');
 		
@@ -94,12 +104,12 @@
 	define('MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY_TITLE', 'VR Pay virtuell Logo');
 	define('MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY_DESC', 'Soll das VR Pay virtuell Logo auf Bezahlseite neben den Logos der Zahlart angezeigt werden?');
 	
-	define('MODULE_PAYMENT_VRPAY_CC_TEXT_FAILED', 'Ihre Transaktion ist fehlgeschlagen. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
-	define('MODULE_PAYMENT_VRPAY_CC_TEXT_CANCELED', 'Transaktion abgebrochen. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
-	define('MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_UNAVAILABLE', 'Bezahlsystem vor&uuml;bergehend nicht erreichbar. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');	
-	define('MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_AUTHENTICATION', 'Anmeldung am Bezahlsystem fehlgeschlagen. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
-	define('MODULE_PAYMENT_VRPAY_CC_TEXT_UNKNOWN_ERROR', 'Ein unbekannter Fehler ist aufgetreten. Bitte w&auml;hlen Sie eine alternative Bezahlmethode.');
-	define('MODULE_PAYMENT_VRPAY_CC_TEXT_CURRENCY_NOT_SUPPORTED', 'Die W&auml;hrung wird von dieser Bezahlmethode nicht unterst&uuml;tzt. Bitte &auml;ndern Sie die W&auml;hrung oder w&auml;hlen Sie eine alternative Bezahlmethode.');
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_FAILED', 'Ihre Transaktion ist fehlgeschlagen. Bitte wählen Sie eine alternative Bezahlmethode.');
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_CANCELED', 'Transaktion abgebrochen. Bitte wählen Sie eine alternative Bezahlmethode.');
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_UNAVAILABLE', 'Bezahlsystem vorübergehend nicht erreichbar. Bitte wählen Sie eine alternative Bezahlmethode.');	
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_AUTHENTICATION', 'Anmeldung am Bezahlsystem fehlgeschlagen. Bitte wählen Sie eine alternative Bezahlmethode.');
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_UNKNOWN_ERROR', 'Ein unbekannter Fehler ist aufgetreten. Bitte wählen Sie eine alternative Bezahlmethode.');
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_CURRENCY_NOT_SUPPORTED', 'Die Währung wird von dieser Bezahlmethode nicht unterstützt. Bitte ändern Sie die Währung oder wählen Sie eine alternative Bezahlmethode.');
 	
 	define('TEXT_VRPAY_CC_PAYMENT', 'Zahlungsstatus');
 	define('TEXT_VRPAY_CC_SICHERHEIT', 'Sicherheitsmerkmale:');

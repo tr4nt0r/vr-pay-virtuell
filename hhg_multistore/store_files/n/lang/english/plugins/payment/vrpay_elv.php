@@ -53,6 +53,12 @@
 				
 		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_TITLE', 'Content Page Conditions');
 		define('MODULE_PAYMENT_VRPAY_SHARED_URLAGB_DESC', 'content page for conditions that is linked from VR-Pay virtuell dialog');		
+		
+		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_TITLE', 'Debug Messages');
+		define('MODULE_PAYMENT_VRPAY_SHARED_DEBUG_DESC', 'Send debug messages to this e-mail address in case of errors.');
+		
+		define('MODULE_PAYMENT_VRPAY_SHARED_SUBMITCART_TITLE', 'Submit Cart');
+		define('MODULE_PAYMENT_VRPAY_SHARED_SUBMITCART_DESC', 'Submit Cart Contents to VR Pay.');
 	}
 
 	define('MODULE_PAYMENT_VRPAY_ELV_ZAHLART_TITLE', 'Payment method');
@@ -63,6 +69,9 @@
 
 	define('MODULE_PAYMENT_VRPAY_ELV_VERWENDUNG2_TITLE', 'Purpose 2');
 	define('MODULE_PAYMENT_VRPAY_ELV_VERWENDUNG2_DESC', 'Purpose line 2');
+		
+	define('MODULE_PAYMENT_VRPAY_ELV_INFOTEXT_TITLE', 'Infotext');
+	define('MODULE_PAYMENT_VRPAY_ELV_INFOTEXT_DESC', 'Infotext (max. 1024 Chars).');	
 
 	define('MODULE_PAYMENT_VRPAY_ELV_ORDER_STATUS_ID_TITLE' , 'Set Order Status');
 	define('MODULE_PAYMENT_VRPAY_ELV_ORDER_STATUS_ID_DESC' , 'Set the status of orders made with this payment module to this value');

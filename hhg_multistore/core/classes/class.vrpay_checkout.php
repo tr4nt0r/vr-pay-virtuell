@@ -19,6 +19,7 @@ class vrpay_checkout {
 		
 	protected $HAENDLERNR;
 	private $PASSWORD;
+	private $post_data = array();
 	
 	protected $REFPREFIX;
 	protected $ZAHLART;
@@ -28,10 +29,11 @@ class vrpay_checkout {
 	
 	protected $VERWENDUNG1;
 	protected $VERWENDUNG2;
+	protected $INFOTEXT;
 	
 	protected $URLAGB;
 	protected $URLCVC;
-	
+	protected $SUBMITCART;
 	
 	protected $ACTIVATE_VISA;
 	protected $ACTIVATE_ECMC;
@@ -91,16 +93,20 @@ class vrpay_checkout {
 
 		$post_data['WAEHRUNG']		= $order->info['currency'];
 		$post_data['INFOTEXT']		= '';
-		$post_data['ARTIKELANZ']	= count($order->products);
 		
-		//Warenkorb		
-		for($i = 0; $i < count($order->products); $i++) {
-			$post_data['ARTIKELNR' . ($i+1)] = ($order->products[$i]['model']) ? $order->products[$i]['model'] : $order->products[$i]['id'];
-			$post_data['ARTIKELBEZ' . ($i+1)] = $order->products[$i]['name'];
-			$post_data['ANZAHL' . ($i+1)] = (int)$order->products[$i]['qty'];
-			$post_data['EINZELPREIS' . ($i+1)] = $order->products[$i]['price'] * pow(10, $xtPrice->get_decimal_places( $order->info['currency'] ) );
-		}
+		if($this->SUBMITCART) {
+			$post_data['ARTIKELANZ']	= count($order->products);
 
+			//Warenkorb
+			for($i = 0; $i < count($order->products); $i++) {
+				$post_data['ARTIKELNR' . ($i+1)] = ($order->products[$i]['model']) ? $order->products[$i]['model'] : $order->products[$i]['id'];
+				$post_data['ARTIKELBEZ' . ($i+1)] = $order->products[$i]['name'];
+				$post_data['ANZAHL' . ($i+1)] = (int)$order->products[$i]['qty'];
+				$post_data['EINZELPREIS' . ($i+1)] = $order->products[$i]['price'] * pow(10, $xtPrice->get_decimal_places( $order->info['currency'] ) );
+			}
+		} else {
+			$post_data['ARTIKELANZ']	= 0;
+		}
 		//Transaktion
 		$post_data['SERVICENAME'] 	= $this->SERVICENAME;
 		
@@ -116,6 +122,8 @@ class vrpay_checkout {
 			$post_data['VERWENDANZ'] = 1;	
 		}
 		
+		
+		$post_data['INFOTEXT'] =  substr(str_replace($array_search, $array_replace, $this->INFOTEXT), 0, 1000);
 		
 		
 		$callback_secret = strtoupper(md5($post_data['BETRAG'].$post_data['REFERENZNR'].$this->ANTWGEHEIMNIS));
@@ -196,7 +204,7 @@ class vrpay_checkout {
 			$post_data[$k] = iconv( strtoupper($_SESSION['language_charset']), 'ISO-8859-1//TRANSLIT', $post_data[$k]);
 		}
 
-		return $post_data;
+		return $this->post_data = $post_data;
 	}
 	
 	
@@ -214,10 +222,16 @@ class vrpay_checkout {
 		curl_setopt($this->ch, CURLOPT_SSLVERSION, 3);
 		curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, false);
 		curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
 		
+		curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
 
+
+		if (ini_get('open_basedir') == '' && ini_get('safe_mode' == 'Off')) {
+			curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
+		} else {			
+			curl_setopt($this->ch, CURLOPT_HEADER, true);
+		}
 		$response = curl_exec($this->ch);
 
 		$this->process_response($response);
@@ -238,18 +252,58 @@ class vrpay_checkout {
 					//Im Fehlerfall erfolgt kein Redirect zur Zahlungsseite
 					if($header['redirect_count'] == 0) {
 						parse_str($response);
+						$this->debug_message($header, $response);
 						xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode($FEHLERTEXT), 'SSL', true, false));
 					} else {
 						xtc_redirect($header['url']);
 					}
 					break;
+				
+				case '302':
+					//Follow Location nicht möglich, weiterleitung "händisch" vornehmen					
+					list($header_raw, $response) = explode("\n\n", $response, 2);
+					$matches = array();
+					preg_match('/(Location:|URI:)(.*?)\n/', $header_raw, $matches);
+					$url = @parse_url(trim(array_pop($matches)));
+					if (!$url) {
+						//redirect url konnte nicht ermittelt werden
+						$this->debug_message($header, $response);
+						xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_UNKNOWN_ERROR), 'SSL', true, false));
+					}
+					//relativen pfad zu absoluten Pfad ergänzen 
+					$last_url = parse_url($header['url']);
+					if (!$url['scheme']) $url['scheme'] = $last_url['scheme'];
+					if (!$url['host']) $url['host'] = $last_url['host'];
+					if (!$url['path']) $url['path'] = $last_url['path'];
+					$new_url = $url['scheme'].'://'.$url['host'].$url['path'].($url['query'] ? '?'.$url['query'] : '');
+					xtc_redirect($new_url);
+					break;
+					
 				case '401':
+					$this->debug_message($header, $response);
 					xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_AUTHENTICATION), 'SSL', true, false));
 					break;
 				default:
+					$this->debug_message($header, $response);
 					xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_UNKNOWN_ERROR), 'SSL', true, false));
 					break;
 			}
+		}
+	}
+	
+	private function debug_message ($header, $response) {
+
+		if($this->DEBUG != '') {
+				
+			$body = '==================================================================' . "\n";
+			$body .= print_r($this->post_data, true);
+			$body .= '==================================================================' ."\n";
+			$body .= print_r($header, true);
+			$body .= '==================================================================' ."\n";
+			$body .= $response;
+
+			error_log($body, 1, $this->DEBUG);
+
 		}
 	}
 }
