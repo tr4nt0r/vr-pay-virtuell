@@ -74,6 +74,9 @@
 	define('MODULE_PAYMENT_VRPAY_CC_VERWENDUNG2_TITLE', 'Verwendungszweck 2');
 	define('MODULE_PAYMENT_VRPAY_CC_VERWENDUNG2_DESC', 'Verwendungszweckzeile 2. Folgende Platzhalter werden ersetzt: {$order_id}, {$customers_cid}, {$customers_name}, {$customers_lastname}, {$customers_firstname}, {$customers_company}, {$customers_city}, {$customers_email_address}');
 
+	define('MODULE_PAYMENT_VRPAY_CC_INFOTEXT_TITLE', 'Infotext');
+	define('MODULE_PAYMENT_VRPAY_CC_INFOTEXT_DESC', 'Infotext (max. 1024 Zeichen). Folgende Platzhalter werden ersetzt: {$order_id}, {$customers_cid}, {$customers_name}, {$customers_lastname}, {$customers_firstname}, {$customers_company}, {$customers_city}, {$customers_email_address}');
+	
 	define('MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID_TITLE' , 'Bestellstatus festlegen');
 	define('MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID_DESC' , 'Bestellungen, welche mit diesem Modul gemacht werden, auf diesen Status setzen');
 		

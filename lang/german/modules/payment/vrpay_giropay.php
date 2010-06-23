@@ -66,6 +66,9 @@
 
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_VERWENDUNG2_TITLE', 'Verwendungszweck 2');
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_VERWENDUNG2_DESC', 'Verwendungszweckzeile 2. Folgende Platzhalter werden ersetzt: {$order_id}, {$customers_cid}, {$customers_name}, {$customers_lastname}, {$customers_firstname}, {$customers_company}, {$customers_city}, {$customers_email_address}');
+	
+	define('MODULE_PAYMENT_VRPAY_GIROPAY_INFOTEXT_TITLE', 'Infotext');
+	define('MODULE_PAYMENT_VRPAY_GIROPAY_INFOTEXT_DESC', 'Infotext (max. 1024 Zeichen). Folgende Platzhalter werden ersetzt: {$order_id}, {$customers_cid}, {$customers_name}, {$customers_lastname}, {$customers_firstname}, {$customers_company}, {$customers_city}, {$customers_email_address}');
 
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_SHOW_VRPAY_TITLE', 'VR Pay virtuell Logo');
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_SHOW_VRPAY_DESC', 'Soll das VR Pay virtuell Logo auf Bezahlseite neben den Logos der Zahlart angezeigt werden?');
