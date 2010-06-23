@@ -74,6 +74,10 @@
 	define('MODULE_PAYMENT_VRPAY_CC_VERWENDUNG2_TITLE', 'Purpose 2');
 	define('MODULE_PAYMENT_VRPAY_CC_VERWENDUNG2_DESC', 'Purpose line 2');
 
+	define('MODULE_PAYMENT_VRPAY_CC_INFOTEXT_TITLE', 'Infotext');
+	define('MODULE_PAYMENT_VRPAY_CC_INFOTEXT_DESC', 'Infotext (max. 1024 Chars).');
+	
+
 	define('MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID_TITLE' , 'Set Order Status');
 	define('MODULE_PAYMENT_VRPAY_CC_ORDER_STATUS_ID_DESC' , 'Set the status of orders made with this payment module to this value');
 
