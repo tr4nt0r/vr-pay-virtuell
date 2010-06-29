@@ -4,7 +4,7 @@
  * 
  * @version     $Id: vrpay_cc.php 16 2010-06-03 22:12:54Z tr4nt0r $
  * 
- * @package     xt-commerce
+ * @package     hhg multistore
  * @subpackage	vr-pay
  * @copyright   (c) 2010 Manfred Dennerlein. All rights reserved.
  * @license     GNU/GPL, see LICENSE.txt
@@ -20,8 +20,7 @@ class vrpay_callback {
 		
 		if(!count($_GET)) return false;
 		
-		$this->data = array_map('hhg_db_prepare', $_GET);
-		
+		$this->data = hhg_db_prepare_input($_GET);
 		$this->callback_process();
 	}
 	

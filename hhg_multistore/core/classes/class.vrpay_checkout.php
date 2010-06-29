@@ -4,7 +4,7 @@
  * 
  * @version     $Id$
  * 
- * @package     xt-commerce
+ * @package     hhg multistore
  * @subpackage	vr-pay
  * @copyright   (c) 2010 Manfred Dennerlein. All rights reserved.
  * @license     GNU/GPL, see LICENSE.txt
@@ -68,7 +68,7 @@ class vrpay_checkout {
 		$post_data['REFERENZNR']	= str_pad($this->REFPREFIX . $order_id, 4, '0', STR_PAD_LEFT);
 
 		if (!in_array($order->info['currency'], array ('EUR', 'USD', 'CHF', 'GBP', 'CAD', 'PLN', 'CZK', 'DKK', 'ALL', 'BAM', 'BGN', 'BYR', 'EEK', 'GEL', 'GIP', 'HRK', 'HUF', 'LTL', 'LVL', 'NOK', 'RON', 'RSD', 'RUB', 'SEK', 'TRY', 'UAH'))) {
-			xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_CURRENCY_NOT_SUPPORTED), 'SSL', true, false));
+			hhg_redirect( xtc_href_link(FILENAME_DEFAULT, 'module=checkout_payment&payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_CURRENCY_NOT_SUPPORTED), 'SSL', true, false));
 		}
 		
 
@@ -102,7 +102,7 @@ class vrpay_checkout {
 				$post_data['ARTIKELNR' . ($i+1)] = ($order->products[$i]['model']) ? $order->products[$i]['model'] : $order->products[$i]['id'];
 				$post_data['ARTIKELBEZ' . ($i+1)] = $order->products[$i]['name'];
 				$post_data['ANZAHL' . ($i+1)] = (int)$order->products[$i]['qty'];
-				$post_data['EINZELPREIS' . ($i+1)] = $order->products[$i]['price'] * pow(10, $xtPrice->get_decimal_places( $order->info['currency'] ) );
+				$post_data['EINZELPREIS' . ($i+1)] = round($order->products[$i]['price'], $xtPrice->get_decimal_places( $order->info['currency'])) * pow(10, $xtPrice->get_decimal_places( $order->info['currency'] ) );
 			}
 		} else {
 			$post_data['ARTIKELANZ']	= 0;
@@ -130,28 +130,29 @@ class vrpay_checkout {
 			
 		$post_data['ANTWGEHEIMNIS']	= $callback_secret;
 			
-		$shop_content_query = "SELECT content_title FROM " . TABLE_CONTENT_MANAGER . " WHERE content_group='". $this->URLAGB."' AND languages_id='" . $_SESSION['languages_id'] . "'";
-		$shop_content_query = xtc_db_query($shop_content_query);
-		$shop_content_data = xtc_db_fetch_array($shop_content_query);
-		$SEF_parameter = '&content='.xtc_cleanName($shop_content_data['content_title']);
-		$post_data['URLAGB'] = xtc_href_link(FILENAME_CONTENT, 'coID=' . $this->URLAGB .$SEF_parameter);
-
+		$c_url_text = HHG_MS_SEO_URLS == 'true' ? 'c.url_text,' : '';
+		
+		$content_query = "SELECT c.content_id, c.content_name FROM " . TABLE_CONTENT_MANAGER . " AS c, " . TABLE_MS_CONTENT_MANAGER_TO_STORE . " AS c2s WHERE c.content_id = c2s.content_id AND c2s.store_" . STORE_ID . " = 1 AND c.language_id='" . (int)$_SESSION['languages_id'] . "' c.content_id = '". $this->URLAGB."'";
+		$content_data = hhg_db_query($content_query);
+		//$shop_content_data = xtc_db_fetch_array($shop_content_query);
+		//$SEF_parameter = '&content='.xtc_cleanName($shop_content_data->fields['content_title']);
+		//$post_data['URLAGB'] = hhg_href_link(FILENAME_DEFAULT, 'coID=' . $this->URLAGB .$SEF_parameter);
+		$post_data['URLAGB'] = hhg_href_link(FILENAME_DEFAULT, 'coID=' . $content_data->fields['content_id'] . '&amp;content=' . hhg_cleanName($content_data->fields['content_name']));
 		if($this->URLCVC) {
-			$shop_content_query = "SELECT content_title FROM " . TABLE_CONTENT_MANAGER . " WHERE content_group='". $this->URLCVC."' AND languages_id='" . $_SESSION['languages_id'] . "'";
-			$shop_content_query = xtc_db_query($shop_content_query);
-			$shop_content_data = xtc_db_fetch_array($shop_content_query);
-			$SEF_parameter = '&content='.xtc_cleanName($shop_content_data['content_title']);
-			$post_data['URLCVC'] = xtc_href_link(FILENAME_CONTENT, 'coID=' . $this->URLCVC .$SEF_parameter);
+			$content_query = "SELECT c.content_id, c.content_name FROM " . TABLE_CONTENT_MANAGER . " AS c, " . TABLE_MS_CONTENT_MANAGER_TO_STORE . " AS c2s WHERE c.content_id = c2s.content_id AND c2s.store_" . STORE_ID . " = 1 AND c.language_id='" . (int)$_SESSION['languages_id'] . "' c.content_id = '". $this->URLCVC."'";
+			$content_data = hhg_db_query($content_query);
+
+			$post_data['URLCVC'] = hhg_href_link(FILENAME_DEFAULT, 'coID=' . $content_data->fields['content_id'] . '&amp;content=' . hhg_cleanName($content_data->fields['content_name']));
 
 		}
 			
-		$post_data['URLERFOLG'] = xtc_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL');
+		$post_data['URLERFOLG'] = hhg_href_link(FILENAME_DEFAULT, 'module=checkout_process', 'NONSSL' , true);
 			
-		$post_data['URLFEHLER'] =  xtc_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_FAILED), 'SSL');
-		$post_data['URLABBRUCH'] = xtc_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_CANCELED), 'SSL');
-		$post_data['URLANTWORT'] = xtc_href_link('callback/vrpay/callback.php', '', 'SSL');
+		$post_data['URLFEHLER'] =  hhg_href_link(FILENAME_DEFAULT, 'module=checkout_payment&payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_FAILED), 'SSL');
+		$post_data['URLABBRUCH'] = hhg_href_link(FILENAME_DEFAULT, 'module=checkout_payment&payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_CANCELED), 'SSL');
+		$post_data['URLANTWORT'] = hhg_href_link('callback/vrpay/callback.php', '', 'SSL');
 		//
-		$post_data['BENACHRPROF']	= "ZHL";
+		$post_data['BENACHRPROF']	= "ALL";
 
 		$post_data['SPRACHE'] = (in_array(strtoupper($_SESSION['language_code']), array('DE', 'EN', 'FR', 'ES', 'IT', 'NL', 'PL', 'CS'))) ? strtoupper($_SESSION['language_code']) : 'DE';
 		
@@ -201,7 +202,13 @@ class vrpay_checkout {
 		}
 
 		foreach($post_data as $k => $v) {
+			if($k == 'VERWENDUNG1' || $k == 'VERWENDUNG2') {
+				setlocale(LC_CTYPE, 'de_DE.utf8');				
+				$post_data[$k] = iconv( strtoupper($_SESSION['language_charset']), 'ASCII//TRANSLIT', $post_data[$k]);
+				$post_data[$k] = str_replace('?', '', $post_data[$k]);
+			}
 			$post_data[$k] = iconv( strtoupper($_SESSION['language_charset']), 'ISO-8859-1//TRANSLIT', $post_data[$k]);
+
 		}
 
 		return $this->post_data = $post_data;
@@ -243,7 +250,7 @@ class vrpay_checkout {
 	protected function process_response(&$response) {
 
 		if($response === false) {
-			xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_UNAVAILABLE), 'SSL', true, false));
+			hhg_redirect( xtc_href_link(FILENAME_DEFAULT, 'module=checkout_payment&payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_UNAVAILABLE), 'SSL', true, false));
 		} else {
 			$header = curl_getinfo($this->ch);
 			switch ($header['http_code']) {
@@ -253,9 +260,9 @@ class vrpay_checkout {
 					if($header['redirect_count'] == 0) {
 						parse_str($response);
 						$this->debug_message($header, $response);
-						xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode($FEHLERTEXT), 'SSL', true, false));
+						hhg_redirect( hhg_href_link(FILENAME_DEFAULT, 'module=checkout_payment&payment_error=' . $this->code . '&error=' . urlencode($FEHLERTEXT), 'SSL', true, false));
 					} else {
-						xtc_redirect($header['url']);
+						hhg_redirect($header['url']);
 					}
 					break;
 				
@@ -268,7 +275,7 @@ class vrpay_checkout {
 					if (!$url) {
 						//redirect url konnte nicht ermittelt werden
 						$this->debug_message($header, $response);
-						xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_UNKNOWN_ERROR), 'SSL', true, false));
+						hhg_redirect( hhg_href_link(FILENAME_DEFAULT, 'module=checkout_payment&payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_UNKNOWN_ERROR), 'SSL', true, false));
 					}
 					//relativen pfad zu absoluten Pfad ergänzen 
 					$last_url = parse_url($header['url']);
@@ -276,16 +283,16 @@ class vrpay_checkout {
 					if (!$url['host']) $url['host'] = $last_url['host'];
 					if (!$url['path']) $url['path'] = $last_url['path'];
 					$new_url = $url['scheme'].'://'.$url['host'].$url['path'].($url['query'] ? '?'.$url['query'] : '');
-					xtc_redirect($new_url);
+					hhg_redirect($new_url);
 					break;
 					
 				case '401':
 					$this->debug_message($header, $response);
-					xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_AUTHENTICATION), 'SSL', true, false));
+					hhg_redirect( hhg_href_link(FILENAME_DEFAULT, 'module=checkout_payment&payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_AUTHENTICATION), 'SSL', true, false));
 					break;
 				default:
 					$this->debug_message($header, $response);
-					xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_UNKNOWN_ERROR), 'SSL', true, false));
+					hhg_redirect( hhg_href_link(FILENAME_DEFAULT, 'module=checkout_payment&payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_UNKNOWN_ERROR), 'SSL', true, false));
 					break;
 			}
 		}

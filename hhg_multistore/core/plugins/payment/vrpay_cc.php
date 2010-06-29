@@ -4,7 +4,7 @@
  *
  * @version     $Id$
  *
- * @package     xt-commerce
+ * @package     hhg multistore
  * @subpackage	vr-pay
  * @copyright   (c) 2010 Manfred Dennerlein. All rights reserved.
  * @license     GNU/GPL, see LICENSE.txt
@@ -46,7 +46,7 @@ class vrpay_cc extends vrpay_checkout {
 		$this->form_action_url = (MODULE_PAYMENT_VRPAY_SHARED_GATEWAY == 'LIVE') ? $this->LIVE_URL : $this->TEST_URL;
 
 		if (is_object($order))
-		$this->update_status();
+			$this->update_status();
 			
 
 		$this->HAENDLERNR	= MODULE_PAYMENT_VRPAY_SHARED_HAENDLERNR;
@@ -69,12 +69,12 @@ class vrpay_cc extends vrpay_checkout {
 		$this->ACTIVATE_JCB = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB == 'True') ? true : false;
 
 		$this->icons = array();
-		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA == 'True') ? hhg_image(DIR_WS_ICONS . 'vrpay/visa.png')  : '';
-		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_ECMC == 'True') ? hhg_image(DIR_WS_ICONS . 'vrpay/mastercard.png') : '';
-		$this->icons[].= (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_AMEX == 'True') ? hhg_image(DIR_WS_ICONS . 'vrpay/americanexpress.png') : '';
-		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_DINERS == 'True') ? hhg_image(DIR_WS_ICONS . 'vrpay/dinersclub.png') : '';
-		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB == 'True') ? hhg_image(DIR_WS_ICONS . 'vrpay/jcb.png') : '';
-		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY == 'True') ? hhg_image(DIR_WS_ICONS . 'vrpay/vrpay.png') : '';
+		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA == 'True') ? hhg_image(DIR_WS_CATALOG . DIR_WS_ACTUAL_STORE_FILES . DIR_WS_ICONS . 'vrpay/visa.png')  : '';
+		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_ECMC == 'True') ? hhg_image(DIR_WS_CATALOG . DIR_WS_ACTUAL_STORE_FILES . DIR_WS_ICONS . 'vrpay/mastercard.png') : '';
+		$this->icons[].= (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_AMEX == 'True') ? hhg_image(DIR_WS_CATALOG . DIR_WS_ACTUAL_STORE_FILES . DIR_WS_ICONS . 'vrpay/americanexpress.png') : '';
+		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_DINERS == 'True') ? hhg_image(DIR_WS_CATALOG . DIR_WS_ACTUAL_STORE_FILES . DIR_WS_ICONS . 'vrpay/dinersclub.png') : '';
+		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB == 'True') ? hhg_image(DIR_WS_CATALOG . DIR_WS_ACTUAL_STORE_FILES . DIR_WS_ICONS . 'vrpay/jcb.png') : '';
+		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY == 'True') ? hhg_image(DIR_WS_CATALOG . DIR_WS_ACTUAL_STORE_FILES . DIR_WS_ICONS . 'vrpay/vrpay.png') : '';
 
 	}
 
@@ -232,10 +232,10 @@ class vrpay_cc extends vrpay_checkout {
 	function remove() {
 		if ( strpos(MODULE_PAYMENT_INSTALLED, 'vrpay_elv') === false && strpos(MODULE_PAYMENT_INSTALLED, 'vrpay_giropay') === false ) {
 			//savely remove local and shared config
-			xtc_db_query("delete from configuration_" . $this->store_id . "_modules where configuration_key in ('" . implode("', '", $this->keys('all')) . "')");
+			hhg_db_query("delete from configuration_" . $this->store_id . "_modules where configuration_key in ('" . implode("', '", $this->keys('all')) . "')");
 		} else {
 			//remove only local config
-			xtc_db_query("delete from configuration_" . $this->store_id . "_modules where configuration_key in ('" . implode("', '", $this->keys('local')) . "')");
+			hhg_db_query("delete from configuration_" . $this->store_id . "_modules where configuration_key in ('" . implode("', '", $this->keys('local')) . "')");
 		}
 	}
 
@@ -330,7 +330,7 @@ class vrpay_cc extends vrpay_checkout {
 								</tr>
 																<tr>
 									<td width="10">'.xtc_image('../' .DIR_WS_ICONS . 'vrpay/information.png').'</td>
-									<td class="main"><a href="' . xtc_href_link('vrpay.php', 'view=detail&id=' . $data['id']) . '">Details</a></td>
+									<td class="main"><a href="' . hhg_href_link('vrpay.php', 'view=detail&id=' . $data['id']) . '">Details</a></td>
 								</tr>
 							</table>
 						</td>
@@ -373,7 +373,7 @@ if(!function_exists('xtc_cfg_password')) {
 //use_function
 if(!function_exists('xtc_cfg_get_password')) {
 	function xtc_cfg_get_password($password) {
-		return '&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;';
+		return '***********';
 	}
 }
 ?>
