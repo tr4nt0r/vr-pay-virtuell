@@ -151,7 +151,7 @@ class vrpay_checkout {
 		$post_data['URLABBRUCH'] = xtc_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=' . $this->code . '&error=' . urlencode(MODULE_PAYMENT_VRPAY_CC_TEXT_CANCELED), 'SSL');
 		$post_data['URLANTWORT'] = xtc_href_link('callback/vrpay/callback.php', '', 'SSL');
 		//
-		$post_data['BENACHRPROF']	= "ZHL";
+		$post_data['BENACHRPROF']	= "ALL";
 
 		$post_data['SPRACHE'] = (in_array(strtoupper($_SESSION['language_code']), array('DE', 'EN', 'FR', 'ES', 'IT', 'NL', 'PL', 'CS'))) ? strtoupper($_SESSION['language_code']) : 'DE';
 		
@@ -201,7 +201,13 @@ class vrpay_checkout {
 		}
 
 		foreach($post_data as $k => $v) {
+			if($k == 'VERWENDUNG1' || $k == 'VERWENDUNG2') {
+				setlocale(LC_CTYPE, 'de_DE.utf8');				
+				$post_data[$k] = iconv( strtoupper($_SESSION['language_charset']), 'ASCII//TRANSLIT', $post_data[$k]);
+				$post_data[$k] = str_replace('?', '', $post_data[$k]);
+			}
 			$post_data[$k] = iconv( strtoupper($_SESSION['language_charset']), 'ISO-8859-1//TRANSLIT', $post_data[$k]);
+
 		}
 
 		return $this->post_data = $post_data;
