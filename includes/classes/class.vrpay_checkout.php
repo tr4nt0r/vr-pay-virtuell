@@ -204,7 +204,7 @@ class vrpay_checkout {
 			if($k == 'VERWENDUNG1' || $k == 'VERWENDUNG2') {
 				setlocale(LC_CTYPE, 'de_DE.utf8');				
 				$post_data[$k] = iconv( strtoupper($_SESSION['language_charset']), 'ASCII//TRANSLIT', $post_data[$k]);
-				$post_data[$k] = str_replace('?', '', $post_data[$k]);
+				$post_data[$k] = preg_replace('/[^a-zA-Z0-9äöüÄÖÜß\$\%\*\+\-\/\,\. ]/s', '', $post_data[$k]);
 			}
 			$post_data[$k] = iconv( strtoupper($_SESSION['language_charset']), 'ISO-8859-1//TRANSLIT', $post_data[$k]);
 
