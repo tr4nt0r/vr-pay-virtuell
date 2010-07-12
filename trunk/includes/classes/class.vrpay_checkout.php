@@ -80,15 +80,15 @@ class vrpay_checkout {
 		
 		//Im Testsystem sind nur ganze Beträge zw. 1 und 9 erlaubt 
 		if ($this->GATEWAY == 'TEST') {
-			if ($order->info['total'] < 1) {
-				$order->info['total'] = 1;
-			} elseif ($order->info['total'] > 9) {
-				$order->info['total'] = 9;
+			if ($total < 1) {
+				$total = 1;
+			} elseif ($total > 9) {
+				$total = 9;
 			} else {
-				$order->info['total'] = round($order->info['total']);
+				$total = round($order->info['total']);
 			}
 		}
-		$post_data['BETRAG']			= $order->info['total'] * pow(10, $xtPrice->get_decimal_places( $order->info['currency'] ) );
+		$post_data['BETRAG']			= $total * pow(10, $xtPrice->get_decimal_places( $order->info['currency'] ) );
 		 		
 
 		$post_data['WAEHRUNG']		= $order->info['currency'];
