@@ -88,7 +88,7 @@ class vrpay_checkout {
 				$total = round($order->info['total']);
 			}
 		}
-		$post_data['BETRAG']			= $total * pow(10, $xtPrice->get_decimal_places( $order->info['currency'] ) );
+		$post_data['BETRAG']			= round($total * pow(10, $xtPrice->get_decimal_places( $order->info['currency'] ) ),0);
 		 		
 
 		$post_data['WAEHRUNG']		= $order->info['currency'];
