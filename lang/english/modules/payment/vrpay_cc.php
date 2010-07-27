@@ -86,6 +86,9 @@
 	
 	define('MODULE_PAYMENT_VRPAY_CC_TMP_STATUS_ID_TITLE','Pending Order Status');
 	define('MODULE_PAYMENT_VRPAY_CC_TMP_STATUS_ID_DESC','Set the status for pending transactions');
+		
+	define('MODULE_PAYMENT_VRPAY_CC_BRAND_SELECT_TITLE', 'Credit Card selection');
+	define('MODULE_PAYMENT_VRPAY_CC_BRAND_SELECT_DESC', 'Select Credit Card type before redirecting to VR Pay.');
 	
 	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA_TITLE', 'Accept VISA cards');
 	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA_DESC', '');
@@ -111,9 +114,11 @@
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_AUTHENTICATION', 'Authentication with payment system failed. Please choose a different payment method.');
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_UNKNOWN_ERROR', 'Unknown error. Please choose a different payment method.');
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_CURRENCY_NOT_SUPPORTED', 'The currency is not supported by the payment method. Please change the currency or choose a different payment method.');
-	
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_SELECT_BRAND', 'Bitte geben Sie den Kreditkartentyp an');
 	define('TEXT_VRPAY_CC_PAYMENT', 'Payment Status');
 	define('TEXT_VRPAY_CC_SICHERHEIT', 'Security features');
 	define('TEXT_VRPAY_CC_BETRAG', 'Amount:');
+	define('TEXT_VRPAY_CC_CARD_TYPE', 'Credit Card type');
+	define('TEXT_VRPAY_CC_PLEASE_SELECT', ' - Please select - ');
 	
 ?>
