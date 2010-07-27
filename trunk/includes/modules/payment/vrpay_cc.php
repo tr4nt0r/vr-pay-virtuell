@@ -67,14 +67,16 @@ class vrpay_cc extends vrpay_checkout {
 		$this->ACTIVATE_DINERS = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_DINERS == 'True') ? true : false;
 		$this->ACTIVATE_AMEX = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_AMEX == 'True') ? true : false;
 		$this->ACTIVATE_JCB = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB == 'True') ? true : false;
+		
+		$this->CC_BRAND = false;
 
 		$this->icons = array();
-		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA == 'True') ? xtc_image(DIR_WS_ICONS . 'vrpay/visa.png')  : '';
-		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_ECMC == 'True') ? xtc_image(DIR_WS_ICONS . 'vrpay/mastercard.png') : '';
-		$this->icons[].= (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_AMEX == 'True') ? xtc_image(DIR_WS_ICONS . 'vrpay/americanexpress.png') : '';
-		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_DINERS == 'True') ? xtc_image(DIR_WS_ICONS . 'vrpay/dinersclub.png') : '';
-		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB == 'True') ? xtc_image(DIR_WS_ICONS . 'vrpay/jcb.png') : '';
-		$this->icons[] = (MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY == 'True') ? xtc_image(DIR_WS_ICONS . 'vrpay/vrpay.png') : '';
+		if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA == 'True') $this->icons[] = xtc_image(DIR_WS_ICONS . 'vrpay/visa.png');
+		if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_ECMC == 'True') $this->icons[] = xtc_image(DIR_WS_ICONS . 'vrpay/mastercard.png');
+		if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_AMEX == 'True') $this->icons[] = xtc_image(DIR_WS_ICONS . 'vrpay/americanexpress.png');
+		if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_DINERS == 'True') $this->icons[] = xtc_image(DIR_WS_ICONS . 'vrpay/dinersclub.png');
+		if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB == 'True') $this->icons[] = xtc_image(DIR_WS_ICONS . 'vrpay/jcb.png');
+		if(MODULE_PAYMENT_VRPAY_CC_SHOW_VRPAY == 'True') $this->icons[] = xtc_image(DIR_WS_ICONS . 'vrpay/vrpay.png');
 
 		$this->icons_available = xtc_image(DIR_WS_ICONS . 'cc_amex_small.jpg') . ' ' .
 		xtc_image(DIR_WS_ICONS . 'cc_mastercard_small.jpg') . ' ' .
@@ -113,18 +115,52 @@ class vrpay_cc extends vrpay_checkout {
 	}
 
 	function selection() {
-		$content = array(array (
-				'title' => ' ',
-				'field' => implode(' ', $this->icons)
-		));
+
+		
+		$this->info .= implode(' ', $this->icons);
+		if(MODULE_PAYMENT_VRPAY_CC_BRAND_SELECT == 'True') {
+			
+			$this->CC_BRAND = $_SESSION[$this->code]['vrpay_cc_brand'];
+			
+			$available_brands = array(array('id' =>'', 'text' => TEXT_VRPAY_CC_PLEASE_SELECT));
+			if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA == 'True') $available_brands[] = array('id' => 'VISA', 'text' => 'VISA');
+			if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_ECMC == 'True') $available_brands[] = array('id' => 'ECMC', 'text' => 'MasterCard');
+			if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_AMEX == 'True') $available_brands[] = array('id' => 'AMEX', 'text' => 'American Express');
+			if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_DINERS == 'True') $available_brands[] = array('id' => 'DINERS', 'text' => 'Diners Card');
+			if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB == 'True') $available_brands[] = array('id' => 'JCB', 'text' => 'JCB');
+
+			$content[] = array ('title' => '', 'field' => htmlentities(utf8_decode(MODULE_PAYMENT_VRPAY_CC_TEXT_SELECT_BRAND)));
+			$content[] = array ('title' => TEXT_VRPAY_CC_CARD_TYPE, 'field' =>   xtc_draw_pull_down_menu('vrpay_cc_brand', $available_brands));
+		}
 		return array ('id' => $this->code, 'module' => $this->title, 'fields' => $content, 'description' => $this->info);
 	}
 
 	function pre_confirmation_check() {
-		return false;
+
+		if(MODULE_PAYMENT_VRPAY_CC_BRAND_SELECT == 'True') {
+			if(isset($_POST['vrpay_cc_brand'])) {
+				$this->CC_BRAND = $_POST['vrpay_cc_brand'];
+				
+				$available_brands = array();
+				if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA == 'True') $available_brands[] = 'VISA';
+				if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_ECMC == 'True') $available_brands[] = 'ECMC';
+				if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_AMEX == 'True') $available_brands[] = 'AMEX';
+				if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_DINERS == 'True') $available_brands[] = 'DINERS';
+				if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_JCB == 'True') $available_brands[] ='JCB';
+
+				if($this->CC_BRAND == '' || !in_array( $this->CC_BRAND, $available_brands)) {
+					xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(utf8_decode(MODULE_PAYMENT_VRPAY_CC_TEXT_SELECT_BRAND)), 'SSL', true, false));
+				}
+			} else {
+				xtc_redirect( xtc_href_link(FILENAME_CHECKOUT_PAYMENT,  'payment_error=' . $this->code . '&error=' . urlencode(utf8_decode(MODULE_PAYMENT_VRPAY_CC_TEXT_SELECT_BRAND)), 'SSL', true, false));
+			}				
+		}
 	}
 
 	function confirmation() {
+		
+		$_SESSION[$this->code]['vrpay_cc_brand'] = $this->CC_BRAND;
+		
 		return false;
 	}
 
@@ -141,6 +177,8 @@ class vrpay_cc extends vrpay_checkout {
 	 */
 	function payment_action() {
 		global $order, $insert_id, $xtPrice;
+		
+		$this->CC_BRAND = $_SESSION[$this->code]['vrpay_cc_brand'];
 
 		$this->send_post($this->build_post($insert_id, $order, 'CC'), $this->form_action_url);
 
@@ -150,9 +188,8 @@ class vrpay_cc extends vrpay_checkout {
 	/**
 	 * Display Error Message
 	 */
-	function get_error() {	
-		$error = array ('error' => stripslashes(urldecode($_GET['error'])));
-		$error['error'] = iconv( 'UTF-8', strtoupper($_SESSION['language_charset']).'//TRANSLIT', $error['error']);
+	function get_error() {
+		$error = array ('error' => htmlspecialchars((urldecode($_GET['error']))));
 		return $error;
 	}
 
@@ -215,6 +252,7 @@ class vrpay_cc extends vrpay_checkout {
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_VRPAY_CC_INFOTEXT', '', '6', '28', now())");
 
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_ZAHLART', 'RESERVIEREN', '6', '23', 'xtc_cfg_select_option(array(\'RESERVIEREN\', \'KAUFEN\'), ', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_BRAND_SELECT', 'True', '6', '29', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA', 'True', '6', '30', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_ECMC', 'True', '6', '31', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_DINERS', 'False', '6', '33', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
