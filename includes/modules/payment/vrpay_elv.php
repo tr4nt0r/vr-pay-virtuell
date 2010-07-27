@@ -136,7 +136,6 @@ class vrpay_elv extends vrpay_checkout {
 	 */
 	function get_error() {	
 		$error = array ('error' => stripslashes(urldecode($_GET['error'])));
-		$error['error'] = iconv( 'UTF-8', strtoupper($_SESSION['language_charset']).'//TRANSLIT', $error['error']);
 		return $error;
 	}
 
