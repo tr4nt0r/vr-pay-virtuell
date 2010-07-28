@@ -119,8 +119,8 @@ class vrpay_cc extends vrpay_checkout {
 		
 		$this->info .= implode(' ', $this->icons);
 		if(MODULE_PAYMENT_VRPAY_CC_BRAND_SELECT == 'True') {
-			
-			$this->CC_BRAND = $_SESSION[$this->code]['vrpay_cc_brand'];
+
+			$this->CC_BRAND = $_SESSION['vrpay_cc_brand'];
 			
 			$available_brands = array(array('id' =>'', 'text' => TEXT_VRPAY_CC_PLEASE_SELECT));
 			if(MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA == 'True') $available_brands[] = array('id' => 'VISA', 'text' => 'VISA');
@@ -138,6 +138,7 @@ class vrpay_cc extends vrpay_checkout {
 	function pre_confirmation_check() {
 
 		if(MODULE_PAYMENT_VRPAY_CC_BRAND_SELECT == 'True') {
+			
 			if(isset($_POST['vrpay_cc_brand'])) {
 				$this->CC_BRAND = $_POST['vrpay_cc_brand'];
 				
@@ -158,9 +159,9 @@ class vrpay_cc extends vrpay_checkout {
 	}
 
 	function confirmation() {
-		
-		$_SESSION[$this->code]['vrpay_cc_brand'] = $this->CC_BRAND;
-		
+		if(MODULE_PAYMENT_VRPAY_CC_BRAND_SELECT == 'True') {				
+			$_SESSION['vrpay_cc_brand'] = $this->CC_BRAND;
+		}
 		return false;
 	}
 
@@ -177,9 +178,9 @@ class vrpay_cc extends vrpay_checkout {
 	 */
 	function payment_action() {
 		global $order, $insert_id, $xtPrice;
-		
-		$this->CC_BRAND = $_SESSION[$this->code]['vrpay_cc_brand'];
-
+		if(MODULE_PAYMENT_VRPAY_CC_BRAND_SELECT == 'True') {
+			$this->CC_BRAND = $_SESSION['vrpay_cc_brand'];
+		}
 		$this->send_post($this->build_post($insert_id, $order, 'CC'), $this->form_action_url);
 
 		return false;
