@@ -86,6 +86,9 @@
 	define('MODULE_PAYMENT_VRPAY_CC_TMP_STATUS_ID_TITLE','Tempor&auml;er Bestellstatus');
 	define('MODULE_PAYMENT_VRPAY_CC_TMP_STATUS_ID_DESC','Bestellstatus f&auml;r noch nicht abgeschlossene Transaktionen');
 	
+	define('MODULE_PAYMENT_VRPAY_CC_BRAND_SELECT_TITLE', 'Kreditkartenauswahl');
+	define('MODULE_PAYMENT_VRPAY_CC_BRAND_SELECT_DESC', 'Den Kreditkarten-Typ vor weiterleitung zu VR Pay im Shop ausw&auml;hlen.');
+	
 	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA_TITLE', 'VISA akzeptieren');
 	define('MODULE_PAYMENT_VRPAY_CC_ACTIVATE_VISA_DESC', 'VISA Akzeptanzvertrag erforderlich. Bitte wenden Sie sich an Ihre Volks- und Raiffeisenbank.');
 	
@@ -110,9 +113,11 @@
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_GATEWAY_AUTHENTICATION', 'Anmeldung am Bezahlsystem fehlgeschlagen. Bitte wählen Sie eine alternative Bezahlmethode.');
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_UNKNOWN_ERROR', 'Ein unbekannter Fehler ist aufgetreten. Bitte wählen Sie eine alternative Bezahlmethode.');
 	define('MODULE_PAYMENT_VRPAY_CC_TEXT_CURRENCY_NOT_SUPPORTED', 'Die Währung wird von dieser Bezahlmethode nicht unterstützt. Bitte ändern Sie die Währung oder wählen Sie eine alternative Bezahlmethode.');
-	
+	define('MODULE_PAYMENT_VRPAY_CC_TEXT_SELECT_BRAND', 'Bitte geben Sie den Kreditkartentyp an');
 	define('TEXT_VRPAY_CC_PAYMENT', 'Zahlungsstatus');
 	define('TEXT_VRPAY_CC_SICHERHEIT', 'Sicherheitsmerkmale:');
 	define('TEXT_VRPAY_CC_BETRAG', 'Betrag:');
+	define('TEXT_VRPAY_CC_CARD_TYPE', 'Kreditkartentyp');
+	define('TEXT_VRPAY_CC_PLEASE_SELECT', ' - Bitte ausw&auml;hlen - ');
 	
 ?>
