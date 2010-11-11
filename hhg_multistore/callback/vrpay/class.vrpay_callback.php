@@ -18,9 +18,9 @@ class vrpay_callback {
 	
 	function __construct() {
 		
-		if(!count($_GET)) return false;
+		if(!count($_POST)) return false;
 		
-		$this->data = hhg_db_prepare_input($_GET);
+		$this->data = hhg_db_prepare_input($_POST);
 		$this->callback_process();
 	}
 	
