@@ -114,10 +114,10 @@ class vrpay_checkout {
 		$array_search = array('{$order_id}', '{$customers_cid}', '{$customers_name}', '{$customers_lastname}', '{$customers_firstname}', '{$customers_company}', '{$customers_city}', '{$customers_email_address}');
 		$array_replace = array($order_id, $order->customer['csID'], $order->customer['firstname'] . ' ' . $order->customer['lastname'], $order->customer['lastname'], $order->customer['firstname'], $order->customer['company'], $order->customer['city'], $order->customer['email_address']);
 		
-		$post_data['VERWENDUNG1'] =  substr(str_replace($array_search, $array_replace, $this->VERWENDUNG1), 0, 24);
+		$post_data['VERWENDUNG1'] =  str_replace($array_search, $array_replace, $this->VERWENDUNG1);
 		
 		if($this->VERWENDUNG2 != '') {
-			$post_data['VERWENDUNG2'] = substr(str_replace($array_search, $array_replace, $this->VERWENDUNG2), 0, 24);
+			$post_data['VERWENDUNG2'] = str_replace($array_search, $array_replace, $this->VERWENDUNG2);
 			$post_data['VERWENDANZ'] = 2;
 		} else {
 			$post_data['VERWENDANZ'] = 1;	
@@ -214,9 +214,10 @@ class vrpay_checkout {
 				setlocale(LC_CTYPE, 'de_DE.utf8');				
 				$post_data[$k] = iconv( strtoupper($_SESSION['language_charset']), 'ASCII//TRANSLIT', $post_data[$k]);
 				$post_data[$k] = preg_replace('/[^a-zA-Z0-9äöüÄÖÜß\$\%\*\+\-\/\,\. ]/s', '', $post_data[$k]);
+				$post_data[$k] = substr($post_data[$k], 0, 24);
+			} else {
+				$post_data[$k] = iconv( strtoupper($_SESSION['language_charset']), 'ISO-8859-1//TRANSLIT', $post_data[$k]);
 			}
-			$post_data[$k] = iconv( strtoupper($_SESSION['language_charset']), 'ISO-8859-1//TRANSLIT', $post_data[$k]);
-
 		}
 
 		return $this->post_data = $post_data;
