@@ -20,7 +20,7 @@
 
 
 	define('MODULE_PAYMENT_VRPAY_ELV_TEXT_TITLE', 'Lastschrift');
-	define('MODULE_PAYMENT_VRPAY_ELV_TEXT_DESC', xtc_image('../'.DIR_WS_ICONS . 'vrpay/VR.gif', 'Kreditkarte', '', '', ' align="middle"' ). 'VR-Pay virtuell Lastschrift<br>Zahlungsmodul f&uuml;r Lastschrift<br><br>Bitte wenden Sie sich an Ihre Volks- und Raiffeisenbank.<br>');
+	define('MODULE_PAYMENT_VRPAY_ELV_TEXT_DESC', 'VR-Pay virtuell Lastschrift<br>Zahlungsmodul f&uuml;r Lastschrift<br><br>Bitte wenden Sie sich an Ihre Volks- und Raiffeisenbank.<br>');
 	define('MODULE_PAYMENT_VRPAY_ELV_TEXT_INFO', '');
 
 	define('MODULE_PAYMENT_VRPAY_ELV_ZONE_TITLE', 'Zahlungszone');

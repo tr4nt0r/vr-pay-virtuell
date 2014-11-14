@@ -4,7 +4,7 @@
  * 
  * @version     $Id: vrpay_cc.php 16 2010-06-03 22:12:54Z tr4nt0r $
  * 
- * @package     xt-commerce
+ * @package     hhg multistore
  * @subpackage	vr-pay
  * @copyright   (c) 2010 Manfred Dennerlein. All rights reserved.
  * @license     GNU/GPL, see LICENSE.txt
@@ -18,10 +18,9 @@ class vrpay_callback {
 	
 	function __construct() {
 		
-		if(!is_array($_POST)) return false;
+		if(!count($_POST)) return false;
 		
-		$this->data = array_map('xtc_db_prepare_input', $_POST);
-		
+		$this->data = hhg_db_prepare_input($_POST);
 		$this->callback_process();
 	}
 	
@@ -46,11 +45,11 @@ class vrpay_callback {
 			$oID = substr_replace($this->data['REFERENZNR'],'',  0, strlen(MODULE_PAYMENT_VRPAY_SHARED_REFERENCEPREFIX));
 		}
 
-		$order_query = xtc_db_query('SELECT orders_id, payment_method FROM ' . TABLE_ORDERS . ' WHERE orders_id = \'' . xtc_db_input($oID) . '\'');
-		if(xtc_db_num_rows($order_query)) {
-			$order = xtc_db_fetch_array($order_query);
-			$this->oID = $order['orders_id'];
-			$this->payment_method = $order['payment_method'];
+		$order = hhg_db_query($sql = 'SELECT orders_id, payment_method FROM ' . TABLE_ORDERS . ' WHERE orders_id = ' . hhg_db_prepare($oID));
+		if($order->RecordCount()) {
+			
+			$this->oID = $order->fields['orders_id'];
+			$this->payment_method = $order->fields['payment_method'];
 			return true;
 		} else {
 			return false;
@@ -89,7 +88,7 @@ class vrpay_callback {
 		$data['VERFALLSDATUM'] = $this->data['VERFALLSDATUM'];
 		$data['NACHRICHTNR'] = $this->data['NACHRICHTNR'];
 		
-		xtc_db_perform('payment_vrpay', $data);		
+		hhg_db_perform('payment_vrpay', $data);		
 	}
 	
 	
@@ -125,8 +124,8 @@ class vrpay_callback {
 		}
 		
 		if($new_status) {
-			xtc_db_query("UPDATE " . TABLE_ORDERS . " SET orders_status='" . (int) $new_status . "' WHERE orders_id='" . (int) $this->oID . "'");
-			xtc_db_query("insert into " . TABLE_ORDERS_STATUS_HISTORY . " (orders_id, orders_status_id, date_added, customer_notified) values ('" . (int) $this->oID . "', '" . (int) $new_status . "', now(), '0')");
+			hhg_db_query("UPDATE " . TABLE_ORDERS . " SET orders_status='" . (int) $new_status . "' WHERE orders_id='" . (int) $this->oID . "'");
+			hhg_db_query("insert into " . TABLE_ORDERS_STATUS_HISTORY . " (orders_id, orders_status_id, date_added, customer_notified) values ('" . (int) $this->oID . "', '" . (int) $new_status . "', now(), '0')");
 		}
 	}
 }

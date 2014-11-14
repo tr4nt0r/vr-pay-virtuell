@@ -20,7 +20,7 @@
 
 
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_TITLE', 'Giropay');
-	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_DESC', xtc_image('../'.DIR_WS_ICONS . 'vrpay/VR.gif', 'Kreditkarte', '', '', ' align="middle"' ) . 'VR-Pay virtuell Giropay<br>Zahlungsmodul f&uuml;r Giropay<br><br>Bitte wenden Sie sich an Ihre Volks- und Raiffeisenbank.<br>');
+	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_DESC', 'VR-Pay virtuell Giropay<br>Zahlungsmodul f&uuml;r Giropay<br><br>Bitte wenden Sie sich an Ihre Volks- und Raiffeisenbank.<br>');
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_TEXT_INFO', '');
 
 	define('MODULE_PAYMENT_VRPAY_GIROPAY_ZONE_TITLE', 'Zahlungszone');
